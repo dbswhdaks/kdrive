@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
+import 'package:kdrive/generated/codegen_loader.g.dart';
 import 'package:kdrive/splash_screen.dart';
 import 'package:kdrive/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -28,7 +29,7 @@ void main() async {
         Locale('vi'),
       ],
       path: 'assets/translations',
-      // assetLoader: const CodegenLoader(),
+      assetLoader: const CodegenLoader(),
       // fallbackLocale: Locale('en'),
       child: MyApp(),
     ),

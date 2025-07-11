@@ -65,9 +65,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+# flutter_launcher_icons 설정값 변경 후 컴파일 명령어 입력
+# 아래는 컴파일 명령
+# flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  image_path: "assets/launcher/logo1.png"
+  android: true
+  ios: true
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -76,17 +85,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-  # flutter_launcher_icons 설정값 변경 후 컴파일 명령어 입력
-# 아래는 컴파일 명령
-# flutter pub run flutter_launcher_icons:main
-flutter_icons:
-  image_path: "assets/launcher/logo1.png"
-  android: true
-  ios: true
-
    # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
     - assets/translations/
 
