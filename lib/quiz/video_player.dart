@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
-import 'video_cache_manager.dart';
+// import 'video_cache_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Stateful widget to fetch and then display video content.
@@ -22,7 +22,7 @@ class MP4PlayerState extends State<MP4Player> {
   String _errorMessage = '';
   Timer? _timeoutTimer;
   static const Duration _timeoutDuration = Duration(seconds: 8); // 타임아웃 단축
-  final VideoCacheManager _cacheManager = VideoCacheManager();
+  // final VideoCacheManager _cacheManager = VideoCacheManager();
 
   @override
   void initState() {
@@ -48,10 +48,10 @@ class MP4PlayerState extends State<MP4Player> {
         }
       });
 
-      // 캐시 매니저를 통해 컨트롤러 가져오기
-      _controller = await _cacheManager.getController(widget.url);
+      // 실제 비디오 컨트롤러 생성 및 초기화
+      _controller = VideoPlayerController.network(widget.url);
+      await _controller!.initialize();
 
-      // 타임아웃 타이머 취소
       _timeoutTimer?.cancel();
 
       if (mounted) {

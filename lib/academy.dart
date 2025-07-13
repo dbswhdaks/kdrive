@@ -1,4 +1,6 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors
+// import 및 ignore 정리
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:kdrive/models/academy_model.dart';
 import 'package:kdrive/utils/distance_service.dart';
@@ -9,10 +11,10 @@ import 'package:geolocator/geolocator.dart';
 
 class Academy extends StatefulWidget {
   const Academy({
-    super.key,
+    Key? key,
     required this.response,
     required this.suggestionResponse,
-  });
+  }) : super(key: key);
 
   final List<AcademyModel> response;
   final List<AcademyModel> suggestionResponse;
@@ -26,7 +28,6 @@ class _AcademyState extends State<Academy> {
   List<MapEntry<AcademyModel, double>>? _sortedSuggestionAcademiesWithDistance;
   bool _isLoading = true;
 
-  // 상수 정의
   static const double _cardHeight = 100.0;
   static const double _imageWidth = 100.0;
   static const double _imageHeight = 70.0;
@@ -41,38 +42,26 @@ class _AcademyState extends State<Academy> {
   }
 
   Future<void> _loadAcademies() async {
-    setState(() {
-      _isLoading = true;
-    });
-
+    setState(() => _isLoading = true);
     try {
-      // 현재 위치를 한 번만 가져오기
       final currentPosition = await DistanceService.getCurrentPosition();
-
-      // 일반 학원과 추천 학원을 병렬로 처리
       final results = await Future.wait([
         _calculateDistances(widget.response, currentPosition),
         _calculateDistances(widget.suggestionResponse, currentPosition),
       ]);
-
       setState(() {
         _sortedAcademiesWithDistance = results[0];
         _sortedSuggestionAcademiesWithDistance = results[1];
         _isLoading = false;
       });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('학원 정보를 불러오는 중 오류가 발생했습니다.')),
-        );
-      }
+    } catch (_) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('학원 정보를 불러오는 중 오류가 발생했습니다.')),
+      );
     }
   }
 
-  // 거리 계산을 통합한 메서드
   Future<List<MapEntry<AcademyModel, double>>> _calculateDistances(
     List<AcademyModel> academies,
     Position? currentPosition,
@@ -80,8 +69,6 @@ class _AcademyState extends State<Academy> {
     if (currentPosition == null) {
       return academies.map((academy) => MapEntry(academy, 0.0)).toList();
     }
-
-    // 모든 학원의 거리를 병렬로 계산
     final distanceFutures = academies.map((academy) async {
       final distance = await DistanceService.calculateDistanceFromPosition(
         currentPosition,
@@ -90,10 +77,8 @@ class _AcademyState extends State<Academy> {
       );
       return MapEntry(academy, distance);
     });
-
     final academiesWithDistance = await Future.wait(distanceFutures);
     academiesWithDistance.sort((a, b) => a.value.compareTo(b.value));
-
     return academiesWithDistance;
   }
 
@@ -112,7 +97,6 @@ class _AcademyState extends State<Academy> {
           ? _buildShimmerLoading()
           : Column(
               children: [
-                // 추천 학원 섹션
                 Container(
                   color: Colors.amber[500],
                   height: _suggestionContainerHeight,
@@ -131,7 +115,6 @@ class _AcademyState extends State<Academy> {
                     },
                   ),
                 ),
-                // 일반 학원 섹션
                 Expanded(
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
@@ -154,7 +137,6 @@ class _AcademyState extends State<Academy> {
   Widget _buildShimmerLoading() {
     return Column(
       children: [
-        // 추천 학원 섹션 shimmer
         Container(
           color: Colors.amber[500],
           height: _suggestionContainerHeight,
@@ -167,14 +149,12 @@ class _AcademyState extends State<Academy> {
             ),
           ),
         ),
-        // 일반 학원 섹션 shimmer
         Expanded(
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
             child: Column(
               children: [
-                // 로딩 메시지
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Text(
@@ -186,7 +166,6 @@ class _AcademyState extends State<Academy> {
                     ),
                   ),
                 ),
-                // shimmer 카드들
                 Expanded(
                   child: ListView.builder(
                     itemCount: 8,
@@ -202,7 +181,12 @@ class _AcademyState extends State<Academy> {
   }
 
   Widget _buildShimmerCard() {
-    return Card.outlined(
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(_borderRadius),
+        side: BorderSide(color: Colors.grey[300]!),
+      ),
       child: SizedBox(
         width: double.infinity,
         height: _cardHeight,
@@ -210,7 +194,6 @@ class _AcademyState extends State<Academy> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              // 이미지 shimmer
               Container(
                 width: _imageWidth,
                 height: _imageHeight,
@@ -225,7 +208,6 @@ class _AcademyState extends State<Academy> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // 제목 shimmer
                     Container(
                       width: double.infinity,
                       height: 16,
@@ -235,7 +217,6 @@ class _AcademyState extends State<Academy> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // 전화번호 shimmer
                     Container(
                       width: 120,
                       height: 14,
@@ -245,7 +226,6 @@ class _AcademyState extends State<Academy> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    // 주소 shimmer
                     Container(
                       width: double.infinity,
                       height: 12,
@@ -255,7 +235,6 @@ class _AcademyState extends State<Academy> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    // 거리 shimmer
                     Container(
                       width: 60,
                       height: 12,
@@ -274,16 +253,13 @@ class _AcademyState extends State<Academy> {
     );
   }
 
-  // 팝업 표시 메서드
   Future<void> _showAcademyPopup(AcademyModel academy) async {
     try {
       final distance = await DistanceService.calculateDistance(
         academy.latitude,
         academy.longitude,
       );
-
       if (!mounted) return;
-
       showDialog(
         context: context,
         barrierDismissible: true,
@@ -292,23 +268,21 @@ class _AcademyState extends State<Academy> {
           distance: distance,
         ),
       );
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('팝업을 표시하는 중 오류가 발생했습니다.')),
-        );
-      }
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('팝업을 표시하는 중 오류가 발생했습니다.')),
+      );
     }
   }
 }
 
 class AcademyCard extends StatelessWidget {
   const AcademyCard({
-    super.key,
+    Key? key,
     required this.academy,
     this.distance,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   final AcademyModel academy;
   final double? distance;
@@ -316,7 +290,12 @@ class AcademyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.outlined(
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: Colors.grey[300]!),
+      ),
       child: SizedBox(
         width: double.infinity,
         height: 100,
@@ -326,11 +305,12 @@ class AcademyCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                // 이미지
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: CachedNetworkImage(
-                    imageUrl: academy.image.toString(),
+                    imageUrl: academy.image?.isNotEmpty == true
+                        ? academy.image!
+                        : 'https://via.placeholder.com/100x70?text=No+Image',
                     width: 100,
                     height: 70,
                     fit: BoxFit.cover,
@@ -351,14 +331,13 @@ class AcademyCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // 정보
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        academy.name.toString(),
+                        academy.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -367,7 +346,7 @@ class AcademyCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        academy.phone.toString(),
+                        academy.phone,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -376,7 +355,7 @@ class AcademyCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        academy.address.toString(),
+                        academy.address,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -407,10 +386,10 @@ class AcademyCard extends StatelessWidget {
 
 class AcademyPopupDialog extends StatelessWidget {
   const AcademyPopupDialog({
-    super.key,
+    Key? key,
     required this.academy,
     required this.distance,
-  });
+  }) : super(key: key);
 
   final AcademyModel academy;
   final double distance;
@@ -436,12 +415,8 @@ class AcademyPopupDialog extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // 상단 이미지 섹션
             _buildImageSection(context),
-            // 콘텐츠 섹션
-            Expanded(
-              child: _buildContentSection(context),
-            ),
+            Expanded(child: _buildContentSection(context)),
           ],
         ),
       ),
@@ -459,14 +434,13 @@ class AcademyPopupDialog extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // 이미지
           ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(24),
               topRight: Radius.circular(24),
             ),
             child: CachedNetworkImage(
-              imageUrl: academy.image.toString(),
+              imageUrl: academy.image ?? '',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
@@ -490,7 +464,6 @@ class AcademyPopupDialog extends StatelessWidget {
               ),
             ),
           ),
-          // 그라데이션 오버레이
           Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -507,7 +480,6 @@ class AcademyPopupDialog extends StatelessWidget {
               ),
             ),
           ),
-          // 거리 정보 배지
           Positioned(
             top: 16,
             right: 16,
@@ -547,7 +519,6 @@ class AcademyPopupDialog extends StatelessWidget {
               ),
             ),
           ),
-          // 닫기 버튼
           Positioned(
             top: 16,
             left: 16,
@@ -578,9 +549,8 @@ class AcademyPopupDialog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 학원 이름
           Text(
-            academy.name.toString(),
+            academy.name,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -589,8 +559,6 @@ class AcademyPopupDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-
-          // 종별 정보
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
@@ -599,7 +567,7 @@ class AcademyPopupDialog extends StatelessWidget {
               border: Border.all(color: Colors.amber[200]!),
             ),
             child: Text(
-              academy.type.toString(),
+              academy.type,
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.amber[700],
@@ -608,8 +576,6 @@ class AcademyPopupDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // 주소 정보
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -628,7 +594,7 @@ class AcademyPopupDialog extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  academy.address.toString(),
+                  academy.address,
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.grey,
@@ -639,8 +605,6 @@ class AcademyPopupDialog extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-
-          // 홈페이지 버튼
           SizedBox(
             width: double.infinity,
             height: 40,
@@ -653,7 +617,7 @@ class AcademyPopupDialog extends StatelessWidget {
                 ),
                 backgroundColor: Colors.grey[50],
               ),
-              onPressed: () => _launchUrl(academy.homepage.toString(), '홈페이지'),
+              onPressed: () => _launchUrl(academy.homepage ?? '', '홈페이지'),
               icon: const Icon(Icons.language, size: 16),
               label: const Text(
                 '홈페이지',
@@ -665,11 +629,8 @@ class AcademyPopupDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // 액션 버튼들
           Row(
             children: [
-              // 전화 버튼
               Expanded(
                 child: SizedBox(
                   height: 44,
@@ -695,7 +656,6 @@ class AcademyPopupDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              // 길찾기 버튼
               Expanded(
                 child: SizedBox(
                   height: 44,
@@ -708,7 +668,7 @@ class AcademyPopupDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () => _launchUrl(academy.naver.toString(), '지도'),
+                    onPressed: () => _launchUrl(academy.naver ?? '', '지도'),
                     icon: const Icon(Icons.directions, size: 18),
                     label: const Text(
                       '길찾기',
@@ -723,8 +683,6 @@ class AcademyPopupDialog extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-
-          // 닫기 버튼
           Center(
             child: SizedBox(
               width: double.infinity,
@@ -756,10 +714,18 @@ class AcademyPopupDialog extends StatelessWidget {
   }
 
   Future<void> _launchUrl(String url, String action) async {
-    try {
-      await launchUrl(Uri.parse(url));
-    } catch (e) {
-      // 에러 처리는 상위에서 처리됨
+    if (url.isEmpty || url == 'null') {
+      // url이 비어있거나 null 문자열이면 동작하지 않음
+      return;
     }
+    try {
+      final uri = Uri.tryParse(url);
+      if (uri == null) return;
+      if (!await canLaunchUrl(uri)) {
+        // 지원하지 않는 url
+        return;
+      }
+      await launchUrl(uri);
+    } catch (_) {}
   }
 }

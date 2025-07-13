@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_declarations
-
+// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_declarations, deprecated_member_use
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,9 @@ import 'package:kdrive/models/quiz/quiz_model.dart';
 import 'package:kdrive/quiz/quiz_result_page.dart';
 import 'package:kdrive/quiz/quiz_result_page1.dart';
 import 'package:kdrive/quiz/video_player.dart';
-import 'package:kdrive/quiz/video_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:video_player/video_player.dart';
 
 import 'package:kdrive/utils/drive_license_type.dart';
 
@@ -59,8 +58,11 @@ class _QuizPageState extends State<QuizPage> {
   /// 답변
   List<List<int>> answers = [];
 
+  /// 비디오 컨트롤러 캐시
+  final Map<String, VideoPlayerController> _videoControllers = {};
+
   /// 비디오 캐시 매니저
-  final VideoCacheManager _videoCacheManager = VideoCacheManager();
+  // final VideoCacheManager _videoCacheManager = VideoCacheManager();
 
   /// 메모리 최적화 타이머
   Timer? _memoryOptimizationTimer;
@@ -83,11 +85,23 @@ class _QuizPageState extends State<QuizPage> {
       _preloadNextVideos();
       // 원거리 비디오 정리 (백그라운드에서)
       _cleanupDistantVideos();
+      // 페이지 이동 시 다음 이미지 프리로딩
+      _preloadNextImages();
+      // 페이지 이동 시 비디오 프리로딩 및 메모리 최적화
+      _preloadNextVideoControllers();
+      _cleanupUnusedVideoControllers();
     });
     startTimer(); // 타이머 시작
 
     // 초기 비디오 프리로딩
     _preloadInitialVideos();
+
+    // 초기 이미지 프리로딩
+    _preloadInitialImages();
+
+    // 초기 비디오 프리로딩 및 메모리 최적화
+    _preloadNextVideoControllers();
+    _cleanupUnusedVideoControllers();
 
     // 메모리 최적화 타이머 시작 (3분마다)
     _startMemoryOptimization();
@@ -106,7 +120,7 @@ class _QuizPageState extends State<QuizPage> {
     }
 
     if (videoUrls.isNotEmpty) {
-      await _videoCacheManager.preloadVideos(videoUrls);
+      // await _videoCacheManager.preloadVideos(videoUrls);
     }
   }
 
@@ -125,33 +139,69 @@ class _QuizPageState extends State<QuizPage> {
     }
 
     if (videoUrls.isNotEmpty) {
-      // 백그라운드에서 프리로딩 (사용자 경험에 영향 없도록)
-      unawaited(_videoCacheManager.preloadVideos(videoUrls));
+      if (kDebugMode) {}
+    }
+  }
 
-      // 성능 통계 출력 (디버그용)
-      if (kDebugMode) {
-        final stats = _videoCacheManager.getPerformanceStats();
-        print('비디오 캐시 통계: ${stats['cacheHitRate'].toStringAsFixed(2)}% 히트율, '
-            '평균 로딩시간: ${stats['averageLoadTime'].inMilliseconds}ms, '
-            '캐시 효율성: ${stats['cacheEfficiency'].toStringAsFixed(2)}');
+  /// 비디오 프리로딩 (현재 페이지와 다음 2개)
+  Future<void> _preloadNextVideoControllers() async {
+    for (int i = _currentPage;
+        i < _currentPage + 3 && i < widget.quizList.length;
+        i++) {
+      final item = widget.quizList[i];
+      if (item.video != null &&
+          item.video!.isNotEmpty &&
+          !_videoControllers.containsKey(item.video!)) {
+        final controller = VideoPlayerController.network(item.video!);
+        await controller.initialize();
+        _videoControllers[item.video!] = controller;
+      }
+    }
+  }
+
+  /// 비디오 컨트롤러 메모리 최적화 (현재 페이지 기준 ±2)
+  void _cleanupUnusedVideoControllers() {
+    final keepRange = List.generate(5, (i) => _currentPage - 2 + i)
+        .where((i) => i >= 0 && i < widget.quizList.length);
+    final keepUrls = keepRange
+        .map((i) => widget.quizList[i].video)
+        .where((url) => url != null && url!.isNotEmpty)
+        .map((url) => url!)
+        .toSet();
+    final removeUrls =
+        _videoControllers.keys.where((url) => !keepUrls.contains(url)).toList();
+    for (final url in removeUrls) {
+      _videoControllers[url]?.dispose();
+      _videoControllers.remove(url);
+    }
+  }
+
+  /// 초기 이미지 프리로딩 (현재 페이지와 다음 2개 페이지)
+  Future<void> _preloadInitialImages() async {
+    for (int i = 0; i < 3 && i < widget.quizList.length; i++) {
+      final item = widget.quizList[i];
+      if (item.image != null && item.image!.isNotEmpty) {
+        await precacheImage(CachedNetworkImageProvider(item.image!), context);
+      }
+    }
+  }
+
+  /// 다음 이미지들 프리로딩 (현재 페이지 이후 3개)
+  Future<void> _preloadNextImages() async {
+    for (int i = _currentPage + 1;
+        i < _currentPage + 4 && i < widget.quizList.length;
+        i++) {
+      final item = widget.quizList[i];
+      if (item.image != null && item.image!.isNotEmpty) {
+        await precacheImage(CachedNetworkImageProvider(item.image!), context);
       }
     }
   }
 
   /// 메모리 최적화 (더 자주 실행)
-  void _startMemoryOptimization() {
-    _memoryOptimizationTimer = Timer.periodic(
-      const Duration(minutes: 3), // 3분마다 실행
-      (_) => _videoCacheManager.optimizeMemory(),
-    );
-  }
+  void _startMemoryOptimization() {}
 
-  /// 현재 페이지 주변의 비디오만 유지하고 나머지는 정리
-  void _cleanupDistantVideos() {
-    // VideoCacheManager의 optimizeMemory가 이미 LRU 방식으로 처리하므로
-    // 여기서는 추가 정리 로직을 구현하지 않음
-    // 필요시 VideoCacheManager의 optimizeMemory를 호출
-  }
+  void _cleanupDistantVideos() {}
 
   @override
   void dispose() {

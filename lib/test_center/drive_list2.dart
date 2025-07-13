@@ -109,7 +109,7 @@ class _DriveList2State extends State<Drive_List2> {
   Widget _buildDisqualificationTab() {
     return _buildTabContent([
       _buildInfoCard("운전면허 결격사유", Icons.block_outlined),
-      _buildWarningCard("※ 다음에 해당하는 사람은 운전면허를 받을 수 없습니다."),
+      _buildWarningCard("다음에 해당하는 사람은 운전면허를 받을 수 없습니다."),
       _buildSectionCard("연령.경력", [
         "18세 미만인 사람(원동기장치 자전거의 경우에는 16세 미만)",
         "제1종 대형면허 또는 제1종 특수면허를 받고자 하는 사람이 19세 미만이거나 자동차(이륜자동차와 원동기장치자전거를 제외한다)의 운전 경험이 1년 미만인 사람"
@@ -131,7 +131,7 @@ class _DriveList2State extends State<Drive_List2> {
     return _buildTabContent([
       _buildInfoCard("응시 제한", Icons.access_time_outlined),
       _buildWarningCard(
-          "※ 운전면허 행정처분 시 또는 기타 도로교통법 위반시 이의 경중에 따라 일정 기간 응시하지 못하게 하는 제도 입니다."),
+          "운전면허 행정처분 시 또는 기타 도로교통법 위반시 이의 경중에 따라 일정 기간 응시하지 못하게 하는 제도 입니다."),
       _buildPeriodCard("5년 제한",
           ["무면허, 음주운전, 약물복용, 과로 운전, 공동위험행위 중 사상사고 야기 후 필요한 구호조치를 하지 않고 도주"]),
       _buildPeriodCard("4년 제한", ["5년 제한 이외의 사유로 사상사고 야기 후 도주"]),
@@ -148,7 +148,7 @@ class _DriveList2State extends State<Drive_List2> {
         "음주운전, 측정불응을 하다가 교통사고를 일으킨 경우",
         "운전면허시험, 전문학원 강사자격시험, 기능검정원 자격시험에서 부정행위를 하여 해당 시험이 무효로 처리된 자"
       ]),
-      _buildWarningCard("※ 도로교통법 제84조의2(부정행위자에 대한 조치)"),
+      _buildWarningCard("도로교통법 제84조의2(부정행위자에 대한 조치)"),
       _buildPeriodCard("1년 제한", [
         "무면허운전",
         "공동위험행위로 운전면허가 취소된 자가 원동기면허를 취득하고자 하는 경우",

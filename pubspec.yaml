@@ -74,7 +74,7 @@ dev_dependencies:
 # 아래는 컴파일 명령
 # flutter pub run flutter_launcher_icons:main
 flutter_icons:
-  image_path: "assets/launcher/logo1.png"
+  image_path: "assets/launcher/mainlogo.jpg"
   android: true
   ios: true
 

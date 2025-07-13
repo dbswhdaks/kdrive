@@ -113,12 +113,12 @@ class _DriveList6State extends State<Drive_List6>
             "(예)과거 2009.04.01 / 2011.05.30 총 2번의 음주운전 이후 2021.07.01 다시 음주운전에 적발되었을 경우 음주운전 전력은 총 3회이지만 교육은 음주운전 1회자 교육 대상자에 해당",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 면허정지·취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
+      _buildWarningCard("면허정지·취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
       _buildSectionCard(
           "교육시간",
           [
             "총 3회, 12시간 교육 / 1회당 4시간",
-            "※ 음주진단반 4시간 + 음주공통 1차반 4시간 + 음주공통 2차반 4시간",
+            "음주진단반 4시간 + 음주공통 1차반 4시간 + 음주공통 2차반 4시간",
           ],
           _kSuccessColor),
       _buildSectionCard(
@@ -144,7 +144,7 @@ class _DriveList6State extends State<Drive_List6>
             "4. 교육이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
+      _buildWarningCard("본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
       _buildSectionCard(
           "준비물",
           [
@@ -152,7 +152,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
     ]);
   }
 
@@ -189,7 +189,7 @@ class _DriveList6State extends State<Drive_List6>
           "교육시간",
           [
             "총 4회, 16시간 교육 / 1회당 4시간",
-            "※ 음주공통 1차반 4시간 + 음주공통 2차반 4시간 + 음주기본 1차반 4시간 + 음주기본 2차반 4시간",
+            "음주공통 1차반 4시간 + 음주공통 2차반 4시간 + 음주기본 1차반 4시간 + 음주기본 2차반 4시간",
           ],
           _kSuccessColor),
       _buildSectionCard(
@@ -214,7 +214,7 @@ class _DriveList6State extends State<Drive_List6>
             "4. 교육이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
+      _buildWarningCard("본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
       _buildSectionCard(
           "준비물",
           [
@@ -222,7 +222,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
     ]);
   }
 
@@ -253,21 +253,21 @@ class _DriveList6State extends State<Drive_List6>
             "(예) 과거 2009.04.01 / 2018.09.01. / 2019.06.01 총 3번의 음주운전 이후 2021.07.01 다시 음주운전에 적발되었을 경우 음주운전 경력은 총 4번이지만 교육은 음주운전 3회자 교육 대상자에 해당",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 면허취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
+      _buildWarningCard("면허취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
       _buildSectionCard(
           "교육시간",
           [
             "총 12회, 48시간 교육 / 1회당 4시간",
-            "※ 음주공통 1차반 4시간 + 음주공통 2차반 4시간 + 음주기본 1차반 4시간 + 음주기본 2차반 4시간+ 음주심화 1~8차반 32시간(각 회차별 4시간)",
+            "음주공통 1차반 4시간 + 음주공통 2차반 4시간 + 음주기본 1차반 4시간 + 음주기본 2차반 4시간+ 음주심화 1~8차반 32시간(각 회차별 4시간)",
           ],
           _kSuccessColor),
       _buildSectionCard(
           "교육커리큘럼(교육순서)",
           [
             "1회차 : 음주공통 1차반 (4시간) → 2회차 : 음주공통 2차반 (4시간) → 3회차 : 음주기본 1차반 (4시간) → 4회차 : 음주기본 2차반 (4시간) → 5~12회차 : 음주심화 1-8차반 (각 회차별 4시간/32시간)",
-            "※ 교육순서대로만 수강이 가능하며, 각 교육별(회차별) 다른 지역교육장에서 수강 가능",
-            "※ 단, 음주심화반의 경우 1~4차와 5~8차 교육을 반드시 동일 교육장에서 수강해야 함",
-            "※ 음주심화반 예약시 원하는 달의 음주심화 1차와 5차 날짜에 한번씩만 예약을 하면 됨 (매주 1회 실시)",
+            "교육순서대로만 수강이 가능하며, 각 교육별(회차별) 다른 지역교육장에서 수강 가능",
+            "단, 음주심화반의 경우 1~4차와 5~8차 교육을 반드시 동일 교육장에서 수강해야 함",
+            "음주심화반 예약시 원하는 달의 음주심화 1차와 5차 날짜에 한번씩만 예약을 하면 됨 (매주 1회 실시)",
           ],
           _kPrimaryColor),
       _buildSectionCard(
@@ -285,7 +285,7 @@ class _DriveList6State extends State<Drive_List6>
             "4. 교육이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
+      _buildWarningCard("본 교육은 법정교육으로 교육시간 이후 교육접수 불가"),
       _buildSectionCard(
           "준비물",
           [
@@ -293,7 +293,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
     ]);
   }
 
@@ -314,11 +314,11 @@ class _DriveList6State extends State<Drive_List6>
           "교육대상",
           [
             "교통사고와 법규위반(난폭운전 포함) 등으로 운전면허가 정지·취소된 경우 또는 어린이보호구역 내 어린이 사상사고를 유발한 경우",
-            "※ 2018.04.25 이후 법규준수교육(권장) 이수자는 1년 이내 동일 교육 수강 불가",
+            "2018.04.25 이후 법규준수교육(권장) 이수자는 1년 이내 동일 교육 수강 불가",
             "ex) 신호위반 1회, 중앙선 침범 1회로 2018년 06월 30일 법규준수교육 이수 시 2019년 06월 30일까지 동일 교육 수강 불가",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 면허정지•취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육수강 가능"),
+      _buildWarningCard("면허정지•취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육수강 가능"),
       _buildSectionCard(
           "교육시간",
           [
@@ -342,7 +342,7 @@ class _DriveList6State extends State<Drive_List6>
             "4. 교육 이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 본 교육은 법정교육으로 교육시작 이후 교육장 입장불가"),
+      _buildWarningCard("본 교육은 법정교육으로 교육시작 이후 교육장 입장불가"),
       _buildSectionCard(
           "준비물",
           [
@@ -350,7 +350,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
 
       // 배려운전교육
       _buildSubSectionTitle("배려운전교육"),
@@ -368,7 +368,7 @@ class _DriveList6State extends State<Drive_List6>
             "보복운전으로 운전면허가 정지·취소된 경우",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 면허정지· 취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
+      _buildWarningCard("면허정지· 취소자는 반드시 경찰서 출석 및 면허증 반납 후 교육 수강 가능"),
       _buildSectionCard(
           "교육시간",
           [
@@ -391,7 +391,7 @@ class _DriveList6State extends State<Drive_List6>
             "4. 교육 이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 본 교육은 법정교육으로 교육시작 이후 교육장 입장불가"),
+      _buildWarningCard("본 교육은 법정교육으로 교육시작 이후 교육장 입장불가"),
       _buildSectionCard(
           "준비물",
           [
@@ -399,7 +399,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
 
       // 현장참여교육
       _buildSubSectionTitle("운전면허 정지자 2차 교육과정(현장참여교육)"),
@@ -417,7 +417,7 @@ class _DriveList6State extends State<Drive_List6>
             "운전면허 정지처분을 받아 특별교통안전교육(1차)를 이수한 사람 중 희망자",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 현장참여교육 이수자는 1년 이내 동일 교육 수강 불가"),
+      _buildWarningCard("현장참여교육 이수자는 1년 이내 동일 교육 수강 불가"),
       _buildSectionCard(
           "교육시간",
           [
@@ -434,9 +434,9 @@ class _DriveList6State extends State<Drive_List6>
           "수강신청 절차",
           [
             "1. 특별교통안전교육(1차) 이수 후, 홈페이지에서 사전 예약",
-            "※ 특별교통안전교육(1차) 이수 전에 예약을 할 경우, 2차인증을 통한 교육반 대상자 조회가 안될 수 있습니다.",
+            "특별교통안전교육(1차) 이수 전에 예약을 할 경우, 2차인증을 통한 교육반 대상자 조회가 안될 수 있습니다.",
             "2. 교육시간 20분 전까지 교육장 방문 후 본인확인용 신분증, 교육수강료 등을 접수창구에 제출하여 교육 접수",
-            "※ 본 교육은 법정교육으로 교육시작 이후 교육장 입장불가",
+            "본 교육은 법정교육으로 교육시작 이후 교육장 입장불가",
             "3. 교재와 좌석번호를 부여 받은 후, 해당 강의실의 지정된 좌석에서 수강",
             "4. 교육 이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],
@@ -448,7 +448,7 @@ class _DriveList6State extends State<Drive_List6>
             "본인확인용 신분증(주민등록증, 여권, 그 외 사진·생년월일·성명이 명확하게 기재되어 있는 여타 공공기관 발행 신분증 등)",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 임시운전면허증은 신분증으로 인정 불가"),
+      _buildWarningCard("임시운전면허증은 신분증으로 인정 불가"),
 
       // 벌점감경 과정
       _buildSubSectionTitle("운전면허 벌점감경 과정"),
@@ -466,7 +466,7 @@ class _DriveList6State extends State<Drive_List6>
             "운전면허 정지처분을 받기 전, 벌점 40점 미만인 경우",
           ],
           _kSecondaryColor),
-      _buildWarningCard("※ 별점감경교육 이수자는 1년 이내 동일 교육 수강 불가"),
+      _buildWarningCard("별점감경교육 이수자는 1년 이내 동일 교육 수강 불가"),
       _buildSectionCard(
           "교육시간",
           [
@@ -483,10 +483,10 @@ class _DriveList6State extends State<Drive_List6>
           "수강신청 절차",
           [
             "1. 본인의 벌점을 확인 후, 홈페이지에서 사전 예약",
-            "※ 운전면허 벌점 확인방법",
+            "운전면허 벌점 확인방법",
             "본인명의의 휴대폰으로 국번없이 182 전화, 공동인증서로 이파인(www.efine.go.kr) 로그인, 공단 통합민원 홈페이지 내 마이페이지 로그인, 신분증 지참 하여 경찰서 교통민원실 방문 등",
             "2. 교육시간 20분 전까지 교육장 방문 후 본인확인용 신분증, 교육수강료 등을 접수창구에 제출하여 교육 접수",
-            "※ 본 교육은 법정교육으로 교육시작 이후 교육장 입장불가",
+            "본 교육은 법정교육으로 교육시작 이후 교육장 입장불가",
             "3. 교재와 좌석번호를 부여 받은 후, 해당 강의실의 지정된 좌석에서 수강",
             "4. 교육 이수 후 한국도로교통공단 홈페이지에서 교육이수증 출력(모바일 홈페이지에서 교육이수증 표출 기능 사용 가능)",
           ],

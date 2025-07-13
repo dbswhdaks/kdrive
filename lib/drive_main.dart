@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, prefer_const_constructors_in_immutables, unused_field, use_build_context_synchronously, deprecated_member_use, avoid_print
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, prefer_const_constructors_in_immutables, unused_field, use_build_context_synchronously, deprecated_member_use, avoid_print, unused_import
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +13,104 @@ import 'package:kdrive/test_center.dart';
 import 'package:kdrive/test_center/drive_list6.dart';
 import 'package:kdrive/test_center/exam_information.dart';
 import 'package:kdrive/test_center/location.dart';
-// import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'hospital.dart';
 
 late Position position;
+
+// ======= 심플 스타일 컬러/폰트 상수 =======
+const kMainColor = Color(0xFF2563EB); // 메인 블루
+const kBgColor = Color(0xFFF5F6FA); // 밝은 그레이
+const kTextColor = Color(0xFF1A202C); // 진한 블랙
+const kSubTextColor = Color(0xFF718096); // 서브 텍스트
+const kCardRadius = 16.0;
+const kSectionPadding = EdgeInsets.symmetric(horizontal: 20, vertical: 8);
+
+// 3D 효과 보조 버튼 위젯
+class _ThreeDSecondaryButton extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color iconColor;
+  final VoidCallback onTap;
+
+  const _ThreeDSecondaryButton({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.iconColor,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_ThreeDSecondaryButton> createState() => _ThreeDSecondaryButtonState();
+}
+
+class _ThreeDSecondaryButtonState extends State<_ThreeDSecondaryButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 90),
+        curve: Curves.easeInOut,
+        transform: _isPressed
+            ? Matrix4.translationValues(0, 4, 0)
+            : Matrix4.identity(),
+        padding: EdgeInsets.all(0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: kBgColor, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(_isPressed ? 0.04 : 0.08),
+              blurRadius: _isPressed ? 2 : 6,
+              offset: Offset(0, _isPressed ? 1 : 3),
+            ),
+          ],
+        ),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(widget.icon, size: 24, color: widget.iconColor),
+              SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.title,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: kTextColor)),
+                    SizedBox(height: 2),
+                    Text(widget.subtitle,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: kSubTextColor,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, size: 16, color: kSubTextColor),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class Drive_Main extends StatefulWidget {
   /// 드라이브 메인 화면
@@ -35,6 +126,7 @@ class _Drive_MainState extends State<Drive_Main> {
   Widget build(BuildContext context) {
     return Scaffold(
       /// 드라이브 메인 화면 스케폴드
+      backgroundColor: kBgColor,
       appBar: AppBar(
         /// 드라이브 메인 화면 앱바
         backgroundColor: Colors.white,
@@ -42,19 +134,20 @@ class _Drive_MainState extends State<Drive_Main> {
         elevation: 0,
         iconTheme: IconThemeData(
           /// 드라이브 메인 화면 앱바 아이콘
-          color: Color(0xFF2D3748),
+          color: kTextColor,
           size: 28, //햄버거 아이콘 크기
         ),
-        title: Text(
-          /// 드라이브 메인 화면 앱바 타이틀
-          '',
-          style: TextStyle(
-            /// 드라이브 메인 화면 앱바 타이틀
-            color: Color(0xFF1A202C),
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        // title: Text(
+        //   /// 드라이브 메인 화면 앱바 타이틀
+        //   '2025 최신판 문제은행',
+        //   style: TextStyle(
+        //     /// 드라이브 메인 화면 앱바 타이틀
+        //     color: Colors.grey[800],
+        //     fontSize: 16,
+        //     fontWeight: FontWeight.w600,
+        //     letterSpacing: -0.5,
+        //   ),
+        // ),
       ),
       drawer: Drawer(
         /// 드라이브 메인 화면 드로워
@@ -64,42 +157,30 @@ class _Drive_MainState extends State<Drive_Main> {
           child: Column(
             /// 드라이브 메인 화면 드로워 컨테이너 내부 컬럼
             children: [
+              // 상단 앱명/로고
               Container(
-                /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너
-                padding:
-                    EdgeInsets.only(top: 60, bottom: 20, left: 20, right: 20),
-                child: Column(
-                  /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 컬럼
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('메뉴',
-
-                        /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 컬럼 타이틀
-                        style: TextStyle(
-                          /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 컬럼 타이틀 스타일
-                          fontSize: 24,
-                          color: Color(0xFF1A202C),
-                          fontWeight: FontWeight.w700,
-                        )),
-                    SizedBox(height: 4),
-                    Text('Menu',
-
-                        /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 컬럼 서브타이틀
-                        style: TextStyle(
-                          /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 컬럼 서브타이틀 스타일
-                          fontSize: 14,
-                          color: Color(0xFF718096),
-                          fontWeight: FontWeight.w500,
-                        )),
-                  ],
+                color: Colors.grey[400],
+                width: double.infinity,
+                padding: EdgeInsets.only(top: 70, bottom: 12),
+                alignment: Alignment.center,
+                child: Text(
+                  '전체보기',
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    letterSpacing: 2,
+                  ),
                 ),
               ),
+              // Divider(height: 1, thickness: 1, color: kBgColor),
               Expanded(
                 /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    _buildSectionHeader('학습 및 문제풀이', icon: Icons.menu_book),
+                    _buildSectionHeader('학습 및 문제풀이',
+                        icon: Icons.menu_book_outlined),
 
                     /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 섹션 헤더
                     _buildDrawerItem(
@@ -107,7 +188,7 @@ class _Drive_MainState extends State<Drive_Main> {
                       title: '운전면허 문제은행',
                       subtitle: '예습 하기',
                       icon: Icons.school,
-                      iconColor: Color(0xFF2563EB),
+                      iconColor: kMainColor,
                       onTap: () {
                         Navigator.push(
                             context,
@@ -115,9 +196,10 @@ class _Drive_MainState extends State<Drive_Main> {
                                 builder: (context) => QuizNanum()));
                       },
                     ),
+
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
-                      title: '문제풀이(quiz)',
+                      title: '문제풀이(모의고사)',
                       subtitle: '테스트 하기',
                       icon: Icons.quiz_rounded,
                       iconColor: Color(0xFF0891B2),
@@ -132,7 +214,7 @@ class _Drive_MainState extends State<Drive_Main> {
                     _buildSectionHeader('위치 기반 서비스', icon: Icons.map),
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
-                      title: '운전전문학원',
+                      title: '운전전문학원 찾기',
                       subtitle: 'academy',
                       icon: Icons.location_on_outlined,
                       iconColor: Color(0xFFEA580C),
@@ -158,7 +240,7 @@ class _Drive_MainState extends State<Drive_Main> {
                     ),
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
-                      title: '운전면허 시험장',
+                      title: '운전면허 시험장 찾기',
                       subtitle: 'test_center',
                       icon: Icons.location_on_outlined,
                       iconColor: Color(0xFF7C3AED),
@@ -185,67 +267,27 @@ class _Drive_MainState extends State<Drive_Main> {
                       iconColor: Color(0xFFDC2626),
                       onTap: () async {
                         try {
-                          // 위치 권한 확인 및 요청
-                          var permissionStatus =
-                              await Permission.location.status;
-                          if (permissionStatus.isDenied ||
-                              permissionStatus.isPermanentlyDenied) {
-                            var requested = await Permission.location.request();
-                            if (!requested.isGranted) {
-                              _showErrorDialog(
-                                  '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
-                              return;
-                            }
+                          if (!await _checkLocationPermission()) {
+                            _showErrorDialog(
+                                '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
+                            return;
                           }
-
-                          // shimmer 효과 로딩 표시
-                          Get.dialog(
-                            _buildShimmerLoadingDialog(),
-                            barrierDismissible: false,
-                          );
-
-                          // 병원 목록과 현재 위치를 병렬로 가져오기
-                          final results = await Future.wait([
-                            getHospitalList(),
-                            Geolocator.getCurrentPosition(
-                                desiredAccuracy: LocationAccuracy.high),
-                          ]);
-
-                          final hospitalList =
-                              results[0] as List<HospitalModel>;
-                          final currentPosition = results[1] as Position;
-
-                          // 거리 계산 및 정렬 (HospitalModel의 내장 메서드 활용)
-                          for (final hospital in hospitalList) {
-                            hospital.distance =
-                                hospital.calculateDistance(currentPosition);
-                          }
-
-                          hospitalList.sort((a, b) {
-                            if (a.distance == null || b.distance == null) {
-                              return 0;
-                            }
-                            return a.distance!.compareTo(b.distance!);
-                          });
-
-                          // 로딩 닫기
-                          Get.back();
-
-                          // 결과 페이지로 이동
+                          _showShimmerDialog();
+                          final hospitalList = await _getSortedHospitalList();
+                          _hideDialog();
                           Get.to(() => Hospital(hospitalList: hospitalList));
                         } on PermissionDeniedException {
-                          Get.back(); // 로딩 닫기
+                          _hideDialog();
                           _showErrorDialog(
                               '위치 권한이 거부되었습니다.\n설정에서 위치 권한을 허용해주세요.');
                         } on LocationServiceDisabledException {
-                          Get.back(); // 로딩 닫기
+                          _hideDialog();
                           _showErrorDialog(
                               '위치 서비스가 비활성화되어 있습니다.\n설정에서 위치 서비스를 활성화해주세요.');
                         } catch (e) {
-                          Get.back(); // 로딩 닫기
+                          _hideDialog();
                           _showErrorDialog(
                               '병원 정보를 불러오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.');
-                          print('Error getting hospital list: $e');
                         }
                       },
                     ),
@@ -271,27 +313,24 @@ class _Drive_MainState extends State<Drive_Main> {
           ),
         ),
       ),
-      backgroundColor: Color(0xFFF7FAFC),
-      body: SafeArea(
 
-          /// 드라이브 메인 화면 바디
+      /// 드라이브 메인 화면 바디
+      body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: kSectionPadding,
             child: Column(
               /// 드라이브 메인 화면 바디 내부 컨테이너 내부 컬럼
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 헤더 섹션
-                Container(
-                  /// 드라이브 메인 화면 바디 내부 컨테이너 내부 컨테이너
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: Text('운전면허 필기시험 문제풀이!',
                       style: TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF718096),
-                        fontWeight: FontWeight.w500,
-                      )),
+                          fontSize: 18,
+                          color: kSubTextColor,
+                          fontWeight: FontWeight.w500)),
                 ),
                 SizedBox(height: 16),
 
@@ -301,10 +340,10 @@ class _Drive_MainState extends State<Drive_Main> {
                     Expanded(
                       child: _buildMainButton(
                         title: '문제풀이',
-                        subtitle: 'quiz',
+                        subtitle: '모의고사',
                         icon: Icons.quiz,
-                        color: Color(0xFFDBEAFE),
-                        iconColor: Color(0xFF2563EB),
+                        color: Color(0xFFDBEAFE), // 연하늘
+                        iconColor: Color(0xFF2563EB), // 진한 파랑
                         onTap: () async {
                           await context.setLocale(Locale("ko"));
                           Navigator.push(
@@ -314,15 +353,14 @@ class _Drive_MainState extends State<Drive_Main> {
                         },
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 16),
                     Expanded(
-                      /// 드라이브 메인 화면 바디 내부 컨테이너 내부 컨테이너 내부 컬럼 내부 리스트뷰
                       child: _buildMainButton(
-                        title: '운전학원',
-                        subtitle: 'academy',
+                        title: '운전전문학원',
+                        subtitle: '찾기',
                         icon: Icons.school,
-                        color: Color(0xFFFED7AA),
-                        iconColor: Color(0xFFEA580C),
+                        color: Color(0xFFFFF7AE), // 연오렌지
+                        iconColor: Color(0xFFEA580C), // 진한 오렌지
                         onTap: () async {
                           var permissionStatus =
                               await Permission.location.status;
@@ -351,94 +389,51 @@ class _Drive_MainState extends State<Drive_Main> {
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
-                      /// 드라이브 메인 화면 바디 내부 컨테이너 내부 컨테이너 내부 컬럼 내부 리스트뷰 내부 리스트뷰
                       child: _buildMainButton(
                         title: '신체검사',
-                        subtitle: 'hospital',
+                        subtitle: '지정병원',
                         icon: Icons.local_hospital,
-                        color: Color(0xFFFECACA),
-                        iconColor: Color(0xFFDC2626),
+                        color: Color(0xFFFFE4E6), // 연핑크
+                        iconColor: Color(0xFFDC2626), // 진한 레드
                         onTap: () async {
                           try {
-                            // 위치 권한 확인 및 요청
-                            var permissionStatus =
-                                await Permission.location.status;
-                            if (permissionStatus.isDenied ||
-                                permissionStatus.isPermanentlyDenied) {
-                              var requested =
-                                  await Permission.location.request();
-                              if (!requested.isGranted) {
-                                _showErrorDialog(
-                                    '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
-                                return;
-                              }
+                            if (!await _checkLocationPermission()) {
+                              _showErrorDialog(
+                                  '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
+                              return;
                             }
-
-                            // shimmer 효과 로딩 표시
-                            Get.dialog(
-                              _buildShimmerLoadingDialog(),
-                              barrierDismissible: false,
-                            );
-
-                            // 병원 목록과 현재 위치를 병렬로 가져오기
-                            final results = await Future.wait([
-                              getHospitalList(),
-                              Geolocator.getCurrentPosition(
-                                  desiredAccuracy: LocationAccuracy.high),
-                            ]);
-
-                            final hospitalList =
-                                results[0] as List<HospitalModel>;
-                            final currentPosition = results[1] as Position;
-
-                            // 거리 계산 및 정렬 (HospitalModel의 내장 메서드 활용)
-                            for (final hospital in hospitalList) {
-                              hospital.distance =
-                                  hospital.calculateDistance(currentPosition);
-                            }
-
-                            hospitalList.sort((a, b) {
-                              if (a.distance == null || b.distance == null) {
-                                return 0;
-                              }
-                              return a.distance!.compareTo(b.distance!);
-                            });
-
-                            // 로딩 닫기
-                            Get.back();
-
-                            // 결과 페이지로 이동
+                            _showShimmerDialog();
+                            final hospitalList = await _getSortedHospitalList();
+                            _hideDialog();
                             Get.to(() => Hospital(hospitalList: hospitalList));
                           } on PermissionDeniedException {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '위치 권한이 거부되었습니다.\n설정에서 위치 권한을 허용해주세요.');
                           } on LocationServiceDisabledException {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '위치 서비스가 비활성화되어 있습니다.\n설정에서 위치 서비스를 활성화해주세요.');
                           } catch (e) {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '병원 정보를 불러오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.');
-                            print('Error getting hospital list: $e');
                           }
                         },
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 16),
                     Expanded(
-                      /// 드라이브 메인 화면 바디 내부 컨테이너 내부 컨테이너 내부 컬럼 내부 리스트뷰 내부 리스트뷰
                       child: _buildMainButton(
                         title: '면허시험장',
-                        subtitle: 'Test site',
+                        subtitle: '찾기',
                         icon: Icons.location_on,
-                        color: Color(0xFFBBF7D0),
-                        iconColor: Color(0xFF16A34A),
+                        color: Color(0xFFD1FAE5), // 연민트
+                        iconColor: Color(0xFF16A34A), // 진한 그린
                         onTap: () async {
                           var permissionStatus =
                               await Permission.location.status;
@@ -467,7 +462,7 @@ class _Drive_MainState extends State<Drive_Main> {
                   title: '문제은행',
                   subtitle: '모두 보기 (1,2종보통,대형,특수,원동기)',
                   icon: Icons.book_outlined,
-                  iconColor: Color(0xFF2563EB),
+                  iconColor: kMainColor,
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => QuizNanum()));
@@ -528,69 +523,28 @@ class _Drive_MainState extends State<Drive_Main> {
                         subtitle: '지정병원 찾기',
                         color: Color(0xFFFECACA),
                         onTap: () async {
-                          /// 신체검사 버튼 클릭 시 신체검사 지정병원 찾기
                           try {
-                            // 위치 권한 확인 및 요청
-                            var permissionStatus =
-                                await Permission.location.status;
-                            if (permissionStatus.isDenied ||
-                                permissionStatus.isPermanentlyDenied) {
-                              var requested =
-                                  await Permission.location.request();
-                              if (!requested.isGranted) {
-                                _showErrorDialog(
-                                    '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
-                                return;
-                              }
+                            if (!await _checkLocationPermission()) {
+                              _showErrorDialog(
+                                  '위치 권한이 필요합니다.\n설정에서 위치 권한을 허용해주세요.');
+                              return;
                             }
-
-                            // shimmer 효과 로딩 표시
-                            Get.dialog(
-                              _buildShimmerLoadingDialog(),
-                              barrierDismissible: false,
-                            );
-
-                            // 병원 목록과 현재 위치를 병렬로 가져오기
-                            final results = await Future.wait([
-                              getHospitalList(),
-                              Geolocator.getCurrentPosition(
-                                  desiredAccuracy: LocationAccuracy.high),
-                            ]);
-
-                            final hospitalList =
-                                results[0] as List<HospitalModel>;
-                            final currentPosition = results[1] as Position;
-
-                            // 거리 계산 및 정렬 (HospitalModel의 내장 메서드 활용)
-                            for (final hospital in hospitalList) {
-                              hospital.distance =
-                                  hospital.calculateDistance(currentPosition);
-                            }
-
-                            hospitalList.sort((a, b) {
-                              if (a.distance == null || b.distance == null)
-                                return 0;
-                              return a.distance!.compareTo(b.distance!);
-                            });
-
-                            // 로딩 닫기
-                            Get.back();
-
-                            // 결과 페이지로 이동
+                            _showShimmerDialog();
+                            final hospitalList = await _getSortedHospitalList();
+                            _hideDialog();
                             Get.to(() => Hospital(hospitalList: hospitalList));
                           } on PermissionDeniedException {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '위치 권한이 거부되었습니다.\n설정에서 위치 권한을 허용해주세요.');
                           } on LocationServiceDisabledException {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '위치 서비스가 비활성화되어 있습니다.\n설정에서 위치 서비스를 활성화해주세요.');
                           } catch (e) {
-                            Get.back(); // 로딩 닫기
+                            _hideDialog();
                             _showErrorDialog(
                                 '병원 정보를 불러오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.');
-                            print('Error getting hospital list: $e');
                           }
                         },
                       ),
@@ -668,30 +622,45 @@ class _Drive_MainState extends State<Drive_Main> {
     return InkWell(
       /// 문제풀이 버튼
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(kCardRadius),
       child: Container(
         height: 120,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade200, width: 1),
+          borderRadius: BorderRadius.circular(kCardRadius),
+          border: Border.all(color: color.withOpacity(0.7), width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.18),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 32, color: iconColor),
-            SizedBox(height: 12),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1A202C))),
-            SizedBox(height: 4),
-            Text(subtitle,
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF718096),
-                    fontWeight: FontWeight.w500)),
+            Icon(icon, size: 40, color: iconColor),
+            SizedBox(height: 14),
+            Text(
+              title,
+              style: TextStyle(
+                // 문제은행 버튼 내부 텍스트
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                letterSpacing: -0.5,
+              ),
+            ),
+            SizedBox(height: 6),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.black54,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),
@@ -699,51 +668,18 @@ class _Drive_MainState extends State<Drive_Main> {
   }
 
   Widget _buildSecondaryButton({
-    /// 운전면허 시험안내 버튼
     required String title,
     required String subtitle,
     required IconData icon,
     required Color iconColor,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      /// 문제은행 버튼
+    return _ThreeDSecondaryButton(
+      title: title,
+      subtitle: subtitle,
+      icon: icon,
+      iconColor: iconColor,
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200, width: 1),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 24, color: iconColor),
-            SizedBox(width: 16),
-            Expanded(
-              /// 왼쪽 컬럼
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF1A202C))),
-                  SizedBox(height: 2),
-                  Text(subtitle,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFF718096),
-                          fontWeight: FontWeight.w500)),
-                ],
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xFF718096)),
-          ],
-        ),
-      ),
     );
   }
 
@@ -770,7 +706,7 @@ class _Drive_MainState extends State<Drive_Main> {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade200, width: 1),
+            border: Border.all(color: kBgColor, width: 1),
           ),
           child: Column(
             /// 캐러셀 버튼 컨테이너 내부 컬럼
@@ -780,10 +716,9 @@ class _Drive_MainState extends State<Drive_Main> {
 
                   /// 캐러셀 버튼 타이틀
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1A202C),
-                  ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: kTextColor),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
@@ -793,7 +728,7 @@ class _Drive_MainState extends State<Drive_Main> {
                   /// 캐러셀 버튼 서브타이틀
                   style: TextStyle(
                       fontSize: 10,
-                      color: Color(0xFF718096),
+                      color: kSubTextColor,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                   maxLines: 1,
@@ -815,33 +750,22 @@ class _Drive_MainState extends State<Drive_Main> {
   }) {
     return Container(
       /// 드로워 버튼 컨테이너
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0.1),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0.1),
-        tileColor: Colors.grey.shade50,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        leading: Icon(icon, size: 18, color: iconColor),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+        tileColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        leading: Icon(icon, size: 20, color: iconColor),
 
         /// 드로워 버튼 아이콘
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Color(0xFF1A202C),
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        subtitle: Text(
-          /// 드로워 버튼 서브타이틀
-          subtitle,
-          style: TextStyle(
-            color: Color(0xFF718096),
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        title: Text(title,
+            style: TextStyle(
+                color: kTextColor, fontWeight: FontWeight.w600, fontSize: 14)),
+        subtitle: Text(subtitle,
+            style: TextStyle(
+                color: kSubTextColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w500)),
         onTap: onTap,
 
         /// 드로워 버튼 클릭 시 함수 실행
@@ -858,23 +782,14 @@ class _Drive_MainState extends State<Drive_Main> {
         /// 섹션 헤더 컨테이너
         children: [
           if (icon != null) ...[
-            Icon(
-              /// 섹션 헤더 아이콘
-              icon,
-              size: 16,
-              color: Color(0xFF2563EB),
-            ),
+            Icon(icon, size: 16, color: kMainColor),
             SizedBox(width: 8),
           ],
-          Text(
-            /// 섹션 헤더 타이틀
-            title,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF1A202C),
-            ),
-          ),
+          Text(title,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: kTextColor)),
         ],
       ),
     );
@@ -980,5 +895,43 @@ class _Drive_MainState extends State<Drive_Main> {
         ],
       ),
     );
+  }
+
+  /// 위치 권한 체크 및 요청 함수
+  Future<bool> _checkLocationPermission() async {
+    var status = await Permission.location.status;
+    if (status.isDenied || status.isPermanentlyDenied) {
+      var requested = await Permission.location.request();
+      return requested.isGranted;
+    }
+    return status.isGranted;
+  }
+
+  /// 병원 리스트+거리 계산 및 정렬 함수
+  Future<List<HospitalModel>> _getSortedHospitalList() async {
+    final results = await Future.wait([
+      getHospitalList(),
+      Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high),
+    ]);
+    final hospitalList = results[0] as List<HospitalModel>;
+    final currentPosition = results[1] as Position;
+    for (final hospital in hospitalList) {
+      hospital.distance = hospital.calculateDistance(currentPosition);
+    }
+    hospitalList.sort((a, b) {
+      if (a.distance == null || b.distance == null) return 0;
+      return a.distance!.compareTo(b.distance!);
+    });
+    return hospitalList;
+  }
+
+  /// shimmer 로딩 다이얼로그 표시
+  void _showShimmerDialog() {
+    Get.dialog(_buildShimmerLoadingDialog(), barrierDismissible: false);
+  }
+
+  /// 다이얼로그 닫기
+  void _hideDialog() {
+    if (Get.isDialogOpen ?? false) Get.back();
   }
 }

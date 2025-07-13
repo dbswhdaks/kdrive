@@ -78,7 +78,7 @@ class _DriveList4State extends State<Drive_List4>
     return _buildTabContent([
       _buildSectionTitle("학과시험"),
       _buildContentText(
-          "※ 전국 운전면허시험장에서 평일 09:00~17:00 응시접수 가능합니다.(청각장애인 및 비문해자 학과시험은 오전10:30분까지, 오후 16:30분 까지 응시점수 완료)"),
+          "전국 운전면허시험장에서 평일 09:00~17:00 응시접수 가능합니다.(청각장애인 및 비문해자 학과시험은 오전10:30분까지, 오후 16:30분 까지 응시점수 완료)"),
       _buildContentText("※ '21.03.22 학과시험 인터넷 예약제 시행"),
       _buildSectionTitle("합격기준"),
       _buildContentText("70점 (1종보통,1종대형,1종특수,대형견인,소형견인,구난차)"),
@@ -345,7 +345,7 @@ class _DriveList4State extends State<Drive_List4>
         ),
       ),
       _buildContentText(
-          "※ 각 응시 종별(1종 대형, 1종 보통, 1종 특수, 2종 보통, 2종 소형, 2종원동기장치 자전거)에 따른 응시과목을 최종 합격했을 경우 발급"),
+          "각 응시 종별(1종 대형, 1종 보통, 1종 특수, 2종 보통, 2종 소형, 2종원동기장치 자전거)에 따른 응시과목을 최종 합격했을 경우 발급"),
       _buildSectionTitle("발급대상"),
       _buildContentText(
           "1,2종 보통 면허 : 연습면허 발급 후 도로주행시험 (운전전문학원 졸업자는 도로주행 검정)에 합격한 자"),
