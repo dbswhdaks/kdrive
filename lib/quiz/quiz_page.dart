@@ -145,6 +145,7 @@ class _QuizPageState extends State<QuizPage> {
 
   /// 비디오 프리로딩 (현재 페이지와 다음 2개)
   Future<void> _preloadNextVideoControllers() async {
+    final List<Future<void>> futures = [];
     for (int i = _currentPage;
         i < _currentPage + 3 && i < widget.quizList.length;
         i++) {
@@ -153,10 +154,12 @@ class _QuizPageState extends State<QuizPage> {
           item.video!.isNotEmpty &&
           !_videoControllers.containsKey(item.video!)) {
         final controller = VideoPlayerController.network(item.video!);
-        await controller.initialize();
-        _videoControllers[item.video!] = controller;
+        futures.add(controller.initialize().then((_) {
+          _videoControllers[item.video!] = controller;
+        }));
       }
     }
+    await Future.wait(futures); // 병렬로 초기화
   }
 
   /// 비디오 컨트롤러 메모리 최적화 (현재 페이지 기준 ±2)
@@ -336,7 +339,7 @@ class _QuizPageState extends State<QuizPage> {
                   const SizedBox(height: 16),
                   questionText(index, item),
                   const SizedBox(height: 16),
-                  if (item.image != null) ...[
+                  if (item.image != null && item.image!.isNotEmpty) ...[
                     Center(
                       child: Container(
                         constraints: BoxConstraints(
@@ -360,6 +363,9 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(8),
                               ),
+                              child: Center(
+                                  child: Text('이미지 로딩 중...',
+                                      style: TextStyle(color: Colors.grey))),
                             ),
                           ),
                           errorWidget: (context, url, error) => Container(
@@ -369,10 +375,12 @@ class _QuizPageState extends State<QuizPage> {
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(
-                              Icons.error_outline,
-                              color: Colors.grey,
-                              size: 48,
+                            child: const Center(
+                              child: Text(
+                                '이미지 없음',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 18),
+                              ),
                             ),
                           ),
                         ),
