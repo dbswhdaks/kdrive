@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:kdrive/main.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 
 enum CarQuizLanguage {
   korea(tableName: 'korea_car'),
@@ -19,10 +19,8 @@ Future<CarQuizModel?> getKoreaCarById(int id) async {
     var result =
         await supabase.from('korea_car').select().eq('id', id).single();
 
-    print('korea_car 테이블 id $id 조회 결과: $result');
     return CarQuizModel.fromMap(result);
   } catch (e) {
-    print('korea_car 테이블 id $id 조회 오류: $e');
     return null;
   }
 }
@@ -38,7 +36,6 @@ Future<List<CarQuizModel>> getCarQuizList(CarQuizLanguage language) async {
       .from(language.tableName)
       .select()
       .order('id', ascending: false);
-  print(result);
   List<CarQuizModel> quizList =
       result.map((e) => CarQuizModel.fromMap(e)).toList();
 

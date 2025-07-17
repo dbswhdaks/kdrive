@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:kdrive/generated/locale_keys.g.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 import 'package:kdrive/quiz/quiz_page.dart';
 import 'package:kdrive/utils/drive_license_type.dart';
 

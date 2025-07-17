@@ -1,21 +1,16 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:kdrive/generated/locale_keys.g.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 import 'package:kdrive/quiz/quiz_page.dart';
 import 'package:kdrive/utils/drive_license_type.dart';
 
 class Korea extends StatelessWidget {
-  const Korea({
-    Key? key,
-    required this.language,
-    required this.bikeLanguage,
-  }) : super(key: key);
-
+  const Korea({Key? key, required this.language, required this.bikeLanguage})
+      : super(key: key);
   final CarQuizLanguage language;
   final BikeQuizLanguage bikeLanguage;
 
@@ -58,86 +53,78 @@ class Korea extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return Column(
+    return const Column(
       children: [
-        SizedBox(
-          height: 30,
-        ),
+        SizedBox(height: 30),
       ],
     );
   }
 
   Widget _buildLicenseButtons() {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      childAspectRatio: 1.1,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        const SizedBox(height: 20),
         _LicenseCard(
           title: LocaleKeys.class_1_driver_license.tr(),
           subtitle: '',
           icon: Icons.local_shipping,
           color: Colors.blue,
-          onTap: () => _navigateToQuiz(DriverLicenseType.type1Common, false),
+          onTap: () => _navigateToQuiz(
+            DriverLicenseType.type1Common,
+            false,
+          ),
         ),
+        const SizedBox(height: 16),
         _LicenseCard(
           title: LocaleKeys.class_2_driver_license.tr(),
           subtitle: '',
           icon: Icons.directions_car_filled,
           color: Colors.green,
-          onTap: () => _navigateToQuiz(DriverLicenseType.type2Common, false),
+          onTap: () => _navigateToQuiz(
+            DriverLicenseType.type2Common,
+            false,
+          ),
         ),
-        _LicenseCard(
-          title: LocaleKeys.class_1_large.tr(),
-          subtitle: '',
-          icon: Icons.directions_bus,
-          color: Colors.orange,
-          onTap: () => _navigateToQuiz(DriverLicenseType.type1Large, false),
-        ),
-        _LicenseCard(
-          title: LocaleKeys.class_1_special.tr(),
-          subtitle: '',
-          icon: Icons.airport_shuttle,
-          color: Colors.purple,
-          onTap: () => _navigateToQuiz(DriverLicenseType.type1Special, false),
-        ),
-        _LicenseCard(
-          title: LocaleKeys.class_2_small.tr(),
-          subtitle: '',
-          icon: Icons.motorcycle,
-          color: Colors.red,
-          onTap: () => _navigateToQuiz(DriverLicenseType.type2Small, true),
-        ),
+        const SizedBox(height: 16),
         _LicenseCard(
           title: LocaleKeys.class_bike.tr(),
           subtitle: '',
           icon: Icons.pedal_bike,
           color: Colors.teal,
-          onTap: () => _navigateToQuiz(DriverLicenseType.typeBike, true),
+          onTap: () => _navigateToQuiz(
+            DriverLicenseType.typeBike,
+            true,
+          ),
         ),
       ],
     );
   }
 
   Future<void> _navigateToQuiz(
-      DriverLicenseType licenseType, bool isBike) async {
+    DriverLicenseType licenseType,
+    bool isBike,
+  ) async {
     if (isBike) {
       final response = await getBikeQuizList(BikeQuizLanguage.korea);
-      Get.to(() => QuizPage(
-            quizList: response.cast<QuizModel>(),
-            licenseType: licenseType,
-            language: CarQuizLanguage.korea,
-            bikeLanguage: BikeQuizLanguage.korea,
-          ));
+      Get.to(
+        () => QuizPage(
+          quizList: response.cast<QuizModel>(),
+          licenseType: licenseType,
+          language: CarQuizLanguage.korea,
+          bikeLanguage: BikeQuizLanguage.korea,
+        ),
+      );
     } else {
       final response = await getCarQuizList(CarQuizLanguage.korea);
-      Get.to(() => QuizPage(
-            quizList: response.cast<QuizModel>(),
-            licenseType: licenseType,
-            language: CarQuizLanguage.korea,
-            bikeLanguage: BikeQuizLanguage.korea,
-          ));
+      Get.to(
+        () => QuizPage(
+          quizList: response.cast<QuizModel>(),
+          licenseType: licenseType,
+          language: CarQuizLanguage.korea,
+          bikeLanguage: BikeQuizLanguage.korea,
+        ),
+      );
     }
   }
 }
@@ -164,48 +151,51 @@ class _LicenseCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    icon,
-                    size: 32,
-                    color: color,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+        child: SizedBox(
+          width: double.infinity,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
               ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icon,
+                      size: 32,
+                      color: color,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -159,7 +159,7 @@ class _Drive_MainState extends State<Drive_Main> {
             children: [
               // 상단 앱명/로고
               Container(
-                color: Colors.grey[400],
+                color: Colors.green[50],
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 70, bottom: 12),
                 alignment: Alignment.center,
@@ -326,11 +326,22 @@ class _Drive_MainState extends State<Drive_Main> {
                 // 헤더 섹션
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: Text('운전면허 필기시험 문제풀이!',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: kSubTextColor,
-                          fontWeight: FontWeight.w500)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text('2025 최신판 문제은행',
+                      //     style: TextStyle(
+                      //         fontSize: 14,
+                      //         color: Colors.blue[900],
+                      //         fontWeight: FontWeight.w500)),
+                      // SizedBox(height: 2),
+                      Text('운전면허 필기시험 문제풀이!',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: kSubTextColor,
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 16),
 
@@ -652,11 +663,11 @@ class _Drive_MainState extends State<Drive_Main> {
                 letterSpacing: -0.5,
               ),
             ),
-            SizedBox(height: 6),
+            SizedBox(height: 2),
             Text(
               subtitle,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 16,
                 color: Colors.black54,
                 fontWeight: FontWeight.w600,
               ),
@@ -727,7 +738,7 @@ class _Drive_MainState extends State<Drive_Main> {
 
                   /// 캐러셀 버튼 서브타이틀
                   style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 12,
                       color: kSubTextColor,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,

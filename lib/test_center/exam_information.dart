@@ -248,7 +248,7 @@ class ExamInformation extends StatelessWidget {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         color: Colors.grey.shade700,
                         fontWeight: FontWeight.w500,
                       ),
@@ -341,7 +341,7 @@ class ExamInformation extends StatelessWidget {
                     Text(
                       subtitle,
                       style: const TextStyle(
-                        fontSize: 11,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         height: 1.2,

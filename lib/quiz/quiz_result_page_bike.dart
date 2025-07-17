@@ -1,14 +1,12 @@
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, unnecessary_type_check
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+
 import 'package:flutter/foundation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:kdrive/drive_main.dart';
 import 'package:kdrive/generated/locale_keys.g.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
-import 'package:kdrive/quiz/replay_screen.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
 import 'package:kdrive/quiz/replay_screen_bike.dart';
 import 'package:kdrive/utils/drive_license_type.dart';
 
@@ -19,8 +17,6 @@ class QuizResultPageBike extends StatelessWidget {
     required this.myAnswers,
     required this.licenseType,
   });
-
-  ///데이터 받고 생성자
 
   final List<BikeQuizModel> quizList;
   final List<List<int>> myAnswers;
@@ -80,7 +76,6 @@ class QuizResultPageBike extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // 점수 표시 섹션
               Container(
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(24),
@@ -152,8 +147,6 @@ class QuizResultPageBike extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // 홈으로 돌아가기 버튼
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
@@ -184,10 +177,7 @@ class QuizResultPageBike extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(height: 24),
-
-              // 문제 목록 제목
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -205,39 +195,24 @@ class QuizResultPageBike extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(height: 16),
-
-              // 문제 목록
               ListView.separated(
                 shrinkWrap: true,
-                primary: false,
+                physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 itemCount: quizList.length,
                 itemBuilder: (context, index) {
                   final quizModel = quizList[index];
-                  if (quizModel is CarQuizModel) {
-                    return ItemWidget(
-                      index: index,
-                      quizModel: quizModel,
-                      myAnswer: myAnswers[index],
-                      isBike: false,
-                    );
-                  } else if (quizModel is BikeQuizModel) {
-                    return ItemWidget(
-                      index: index,
-                      quizModel: quizModel,
-                      myAnswer: myAnswers[index],
-                      isBike: true,
-                    );
-                  }
-                  return SizedBox.shrink();
+                  return ItemWidget(
+                    index: index,
+                    quizModel: quizModel,
+                    myAnswer: myAnswers[index],
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return SizedBox(height: 6);
                 },
               ),
-
               SizedBox(height: 20),
             ],
           ),
@@ -247,21 +222,12 @@ class QuizResultPageBike extends StatelessWidget {
   }
 
   String _getLicenseTypeText() {
-    // 라이선스 타입 텍스트 반환
-    switch (licenseType) {
-      case DriverLicenseType.type1Common:
-        return LocaleKeys.class_1_driver_license.tr();
-      case DriverLicenseType.type2Common:
-        return LocaleKeys.class_2_driver_license.tr();
-      case DriverLicenseType.type1Large:
-        return LocaleKeys.class_1_large.tr();
-      case DriverLicenseType.type1Special:
-        return LocaleKeys.class_1_special.tr();
-      case DriverLicenseType.type2Small:
-        return LocaleKeys.class_2_small.tr();
-      case DriverLicenseType.typeBike:
-        return LocaleKeys.class_bike.tr();
-    }
+    final typeTextMap = {
+      DriverLicenseType.type1Common: LocaleKeys.class_1_driver_license.tr(),
+      DriverLicenseType.type2Common: LocaleKeys.class_2_driver_license.tr(),
+      DriverLicenseType.typeBike: LocaleKeys.class_bike.tr(),
+    };
+    return typeTextMap[licenseType] ?? '';
   }
 }
 
@@ -271,20 +237,19 @@ class ItemWidget extends StatelessWidget {
     required this.index,
     required this.quizModel,
     required this.myAnswer,
-    required this.isBike,
   });
 
   final int index;
-  final QuizModel quizModel;
+  final BikeQuizModel quizModel;
   final List<int> myAnswer;
-  final bool isBike;
+
+  bool get isCorrect {
+    final sortedMyAnswer = List<int>.from(myAnswer)..sort();
+    return listEquals(quizModel.answer, sortedMyAnswer);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final sortedMyAnswer = List<int>.from(myAnswer)..sort();
-    final isCorrect = listEquals(quizModel.answer, sortedMyAnswer);
-
-    // compact 스타일 값(항상 적용)
     const double cardPadding = 6;
     const double numberBox = 30;
     const double fontSize = 18;
@@ -295,7 +260,6 @@ class ItemWidget extends StatelessWidget {
     const double gap = 8;
 
     return Container(
-      // 문제 컨테이너
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -311,7 +275,6 @@ class ItemWidget extends StatelessWidget {
         padding: EdgeInsets.all(cardPadding),
         child: Row(
           children: [
-            // 문제 번호
             Container(
               width: numberBox,
               height: numberBox,
@@ -330,10 +293,7 @@ class ItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(width: gap),
-
-            // 답안 선택지들
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -345,7 +305,7 @@ class ItemWidget extends StatelessWidget {
                       final isAnswer = quizModel.answer.contains(number);
                       final isMyChoice = myAnswer.contains(number);
 
-                      return NumBerWidget(
+                      return NumberWidget(
                         number: number,
                         type: isAnswer ? AnswerType.correct : AnswerType.basic,
                         isSelected: isMyChoice,
@@ -356,19 +316,13 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-
             SizedBox(width: gap),
-
-            // 결과 아이콘
             Icon(
               isCorrect ? Icons.check_circle : Icons.cancel,
               color: isCorrect ? Color(0xFF4CAF50) : Color(0xFFF44336),
               size: iconSize,
             ),
-
             SizedBox(width: gap / 2),
-
-            // 상세보기 버튼
             Container(
               decoration: BoxDecoration(
                 color: Color(0xFF667eea),
@@ -379,19 +333,11 @@ class ItemWidget extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
-                    if (isBike) {
-                      Get.to(ReplayScreenBike(
-                        quizModel: quizModel as BikeQuizModel,
-                        myAnswer: myAnswer,
-                        index: index,
-                      ));
-                    } else {
-                      Get.to(ReplayScreen(
-                        quizModel: quizModel as CarQuizModel,
-                        myAnswer: myAnswer,
-                        index: index,
-                      ));
-                    }
+                    Get.to(ReplayScreenBike(
+                      quizModel: quizModel,
+                      myAnswer: myAnswer,
+                      index: index,
+                    ));
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -415,8 +361,8 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-class NumBerWidget extends StatelessWidget {
-  const NumBerWidget({
+class NumberWidget extends StatelessWidget {
+  const NumberWidget({
     super.key,
     required this.number,
     this.type = AnswerType.basic,
@@ -449,7 +395,6 @@ class NumBerWidget extends StatelessWidget {
       textColor = Color(0xFF4CAF50);
     }
 
-    // compact 스타일(항상 적용)
     const double boxSize = 34;
     const double fontSize = 19;
 
@@ -479,13 +424,6 @@ class NumBerWidget extends StatelessWidget {
 }
 
 enum AnswerType {
-  /// 기본
-  basic(Colors.grey),
-
-  /// 정답
-  correct(Colors.green);
-
-  final Color color;
-
-  const AnswerType(this.color);
+  basic,
+  correct;
 }

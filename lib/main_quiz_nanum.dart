@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, prefer_const_constructors_in_immutables, camel_case_types
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
 import 'package:kdrive/quiz/china.dart';
 import 'package:kdrive/quiz/english.dart';
 import 'package:kdrive/quiz/korea.dart';

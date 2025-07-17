@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:kdrive/main.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 
 enum BikeQuizLanguage {
   korea(tableName: 'korea_bike'),
@@ -19,7 +19,6 @@ Future<List<BikeQuizModel>> getBikeQuizList(BikeQuizLanguage language) async {
       .from(language.tableName)
       .select()
       .order('id', ascending: false);
-  print(result);
   List<BikeQuizModel> quizList =
       result.map((e) => BikeQuizModel.fromMap(e)).toList();
 

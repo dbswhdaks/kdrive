@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
-import 'package:kdrive/models/quiz/bike_every_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_every_quiz_model.dart';
 import 'package:kdrive/quiz/video_player.dart';
 
 class BikeListQuiz extends StatefulWidget {
@@ -23,7 +23,6 @@ class _BikeListQuizState extends State<BikeListQuiz> {
 
   Future<void> _loadQuizList() async {
     final loadedQuizList = await getEveryQuizList(BikeEveryQuizLanguage.korea);
-    // print(loadedQuizList);
     setState(() {
       quizList = loadedQuizList;
     });
@@ -54,7 +53,6 @@ class _BikeListQuizState extends State<BikeListQuiz> {
       body: ListView.builder(
         itemCount: quizList.length,
         itemBuilder: (context, index) {
-          // print(quizList[index]);
           BikeEveryQuizModel item = quizList[index];
           return Card.outlined(
             margin: const EdgeInsets.all(8.0),

@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
 import 'package:kdrive/quiz/quiz_result_page.dart';
 import 'package:kdrive/quiz/video_player.dart';
 

@@ -102,8 +102,7 @@ class _AcademyState extends State<Academy> {
                   height: _suggestionContainerHeight,
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount:
-                        _sortedSuggestionAcademiesWithDistance?.length ?? 0,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       final entry =
                           _sortedSuggestionAcademiesWithDistance![index];

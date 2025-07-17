@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
 import 'package:kdrive/quiz/quiz_result_page.dart';
 import 'package:kdrive/quiz/video_player.dart';
+import 'package:kdrive/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ReplayScreen extends StatelessWidget {
   const ReplayScreen({
@@ -21,7 +21,7 @@ class ReplayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('다시보기'),
+        title: Text(LocaleKeys.replay_title.tr()),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -2,15 +2,17 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const hello = 'hello';
   static const time_left = 'time_left';
   static const submit = 'submit';
   static const next = 'next';
   static const previous = 'previous';
   static const answer_sheet_submit_confirm = 'answer_sheet_submit_confirm';
-  static const answer_sheet_submit_confirm_button = 'answer_sheet_submit_confirm_button';
-  static const answer_sheet_submit_confirm_cancel = 'answer_sheet_submit_confirm_cancel';
+  static const answer_sheet_submit_confirm_button =
+      'answer_sheet_submit_confirm_button';
+  static const answer_sheet_submit_confirm_cancel =
+      'answer_sheet_submit_confirm_cancel';
   static const back_to_home = 'back_to_home';
   static const passed = 'passed';
   static const failed = 'failed';
@@ -36,5 +38,5 @@ abstract class  LocaleKeys {
   static const title_5 = 'title_5';
   static const title_6 = 'title_6';
   static const mock_exam_40_questions = 'mock_exam_40_questions';
-
+  static const replay_title = 'replay_title';
 }

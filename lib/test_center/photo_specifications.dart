@@ -171,10 +171,10 @@ class Photo_Specifications extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      '• 사진은 최근 6개월 이내에 촬영된 것이어야 합니다.\n'
-                      '• 정면을 바라보고 있는 사진이어야 합니다.\n'
-                      '• 안경을 착용한 경우 반사가 없는 사진이어야 합니다.\n'
-                      '• 배경은 흰색 또는 연한 색상이어야 합니다.',
+                      '사진은 최근 6개월 이내에 촬영된 것이어야 합니다.\n'
+                      '정면을 바라보고 있는 사진이어야 합니다.\n'
+                      '안경을 착용한 경우 반사가 없는 사진이어야 합니다.\n'
+                      '배경은 흰색 또는 연한 색상이어야 합니다.',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],

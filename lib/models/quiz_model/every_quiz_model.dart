@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:kdrive/main.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 
 enum EveryQuizLanguage {
   korea(tableName: 'korea_car'),
@@ -20,7 +20,6 @@ Future<List<EveryQuizModel>> getEveryQuizList(
       .from(language.tableName)
       .select()
       .order('id', ascending: false);
-  print(result);
   List<EveryQuizModel> quizList =
       result.map((e) => EveryQuizModel.fromMap(e)).toList();
 

@@ -6,9 +6,11 @@ import 'package:shimmer/shimmer.dart';
 
 /// Stateful widget to fetch and then display video content.
 class MP4Player extends StatefulWidget {
-  const MP4Player({super.key, required this.url});
+  const MP4Player({super.key, this.url, this.controller})
+      : assert(url != null || controller != null);
 
-  final String url;
+  final String? url;
+  final VideoPlayerController? controller;
 
   @override
   MP4PlayerState createState() => MP4PlayerState();
@@ -22,11 +24,13 @@ class MP4PlayerState extends State<MP4Player> {
   String _errorMessage = '';
   Timer? _timeoutTimer;
   static const Duration _timeoutDuration = Duration(seconds: 8); // 타임아웃 단축
+  bool _isExternalController = false;
   // final VideoCacheManager _cacheManager = VideoCacheManager();
 
   @override
   void initState() {
     super.initState();
+    _isExternalController = widget.controller != null;
     _initializeController();
   }
 
@@ -38,8 +42,10 @@ class MP4PlayerState extends State<MP4Player> {
         _errorMessage = '';
       });
 
-      // 기존 컨트롤러 정리
-      await _disposeController();
+      // 기존 컨트롤러 정리 (내부 컨트롤러만)
+      if (!_isExternalController) {
+        await _disposeController();
+      }
 
       // 타임아웃 설정
       _timeoutTimer = Timer(_timeoutDuration, () {
@@ -48,9 +54,15 @@ class MP4PlayerState extends State<MP4Player> {
         }
       });
 
-      // 실제 비디오 컨트롤러 생성 및 초기화
-      _controller = VideoPlayerController.network(widget.url);
-      await _controller!.initialize();
+      if (_isExternalController) {
+        _controller = widget.controller;
+        if (!_controller!.value.isInitialized) {
+          await _controller!.initialize();
+        }
+      } else {
+        _controller = VideoPlayerController.network(widget.url!);
+        await _controller!.initialize();
+      }
 
       _timeoutTimer?.cancel();
 
@@ -78,9 +90,9 @@ class MP4PlayerState extends State<MP4Player> {
   }
 
   Future<void> _disposeController() async {
-    if (_controller != null) {
+    if (_controller != null && !_isExternalController) {
       await _controller!.pause();
-      // 캐시 매니저가 관리하므로 dispose는 하지 않음
+      await _controller!.dispose();
       _controller = null;
     }
   }
@@ -206,7 +218,9 @@ class MP4PlayerState extends State<MP4Player> {
   @override
   void dispose() {
     _timeoutTimer?.cancel();
-    _disposeController();
+    if (!_isExternalController) {
+      _disposeController();
+    }
     super.dispose();
   }
 }

@@ -1,13 +1,14 @@
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+
 import 'package:flutter/foundation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:kdrive/drive_main.dart';
 import 'package:kdrive/generated/locale_keys.g.dart';
-import 'package:kdrive/models/quiz/bike_quiz_model.dart';
-import 'package:kdrive/models/quiz/car_quiz_model.dart';
-import 'package:kdrive/models/quiz/quiz_model.dart';
+import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
+import 'package:kdrive/models/quiz_model/quiz_model.dart';
 import 'package:kdrive/quiz/replay_screen.dart';
 import 'package:kdrive/quiz/replay_screen_bike.dart';
 import 'package:kdrive/utils/drive_license_type.dart';
