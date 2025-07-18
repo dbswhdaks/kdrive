@@ -72,9 +72,9 @@ dev_dependencies:
 
 # flutter_launcher_icons 설정값 변경 후 컴파일 명령어 입력
 # 아래는 컴파일 명령
-# flutter pub run flutter_launcher_icons:main
+# flutter pub run flutter_launcher_icons:main  ///로고 이미지 수정후 이부분을 복사해서 터미널에 붙여넣기
 flutter_icons:
-  image_path: "assets/launcher/mainlogo.png"
+  image_path: "assets/launcher/mainlogo3.png"
   android: true
   ios: true
 

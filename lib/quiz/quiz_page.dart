@@ -145,7 +145,6 @@ class _QuizPageState extends State<QuizPage> {
 
   /// 비디오 프리로딩 (현재 페이지와 다음 2개)
   Future<void> _preloadNextVideoControllers() async {
-    final List<Future<void>> futures = [];
     for (int i = _currentPage;
         i < _currentPage + 3 && i < widget.quizList.length;
         i++) {
@@ -154,12 +153,10 @@ class _QuizPageState extends State<QuizPage> {
           item.video!.isNotEmpty &&
           !_videoControllers.containsKey(item.video!)) {
         final controller = VideoPlayerController.network(item.video!);
-        futures.add(controller.initialize().then((_) {
-          _videoControllers[item.video!] = controller;
-        }));
+        await controller.initialize();
+        _videoControllers[item.video!] = controller;
       }
     }
-    await Future.wait(futures); // 병렬로 초기화
   }
 
   /// 비디오 컨트롤러 메모리 최적화 (현재 페이지 기준 ±2)
@@ -168,7 +165,7 @@ class _QuizPageState extends State<QuizPage> {
         .where((i) => i >= 0 && i < widget.quizList.length);
     final keepUrls = keepRange
         .map((i) => widget.quizList[i].video)
-        .where((url) => url != null && url!.isNotEmpty)
+        .where((url) => url != null && url.isNotEmpty)
         .map((url) => url!)
         .toSet();
     final removeUrls =
@@ -271,8 +268,7 @@ class _QuizPageState extends State<QuizPage> {
                     myAnswers: answers,
                     licenseType: widget.licenseType,
                   ));
-                } else if (widget.licenseType == DriverLicenseType.type2Small ||
-                    widget.licenseType == DriverLicenseType.typeBike) {
+                } else if (widget.licenseType == DriverLicenseType.typeBike) {
                   Get.offAll(QuizResultPageBike(
                     quizList: widget.quizList.cast<BikeQuizModel>(),
                     myAnswers: answers,
@@ -339,7 +335,7 @@ class _QuizPageState extends State<QuizPage> {
                   const SizedBox(height: 16),
                   questionText(index, item),
                   const SizedBox(height: 16),
-                  if (item.image != null && item.image!.isNotEmpty) ...[
+                  if (item.image != null) ...[
                     Center(
                       child: Container(
                         constraints: BoxConstraints(
@@ -363,9 +359,6 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Center(
-                                  child: Text('이미지 로딩 중...',
-                                      style: TextStyle(color: Colors.grey))),
                             ),
                           ),
                           errorWidget: (context, url, error) => Container(
@@ -375,12 +368,10 @@ class _QuizPageState extends State<QuizPage> {
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Center(
-                              child: Text(
-                                '이미지 없음',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 18),
-                              ),
+                            child: const Icon(
+                              Icons.error_outline,
+                              color: Colors.grey,
+                              size: 48,
                             ),
                           ),
                         ),
@@ -611,10 +602,8 @@ class _QuizPageState extends State<QuizPage> {
                                 licenseType: widget.licenseType,
                               ));
                             } else if (widget.licenseType ==
-                                    DriverLicenseType.type2Small ||
-                                widget.licenseType ==
-                                    DriverLicenseType.typeBike) {
-                              // 2종소형(40문항) 60↑)
+                                DriverLicenseType.typeBike) {
+                              // 원동기(40문항) 60↑)
                               Get.offAll(QuizResultPageBike(
                                 quizList: widget.quizList.cast<BikeQuizModel>(),
                                 myAnswers: answers,
@@ -685,24 +674,7 @@ class _QuizPageState extends State<QuizPage> {
           'quiz_count': widget.licenseType.totalQuestions.toString(),
           'passing_score': widget.licenseType.passingScore.toString(),
         });
-      case DriverLicenseType.type1Large:
-        return LocaleKeys.title_3.tr(namedArgs: {
-          // 1종대형(40문항) 70↑)
-          'quiz_count': widget.licenseType.totalQuestions.toString(),
-          'passing_score': widget.licenseType.passingScore.toString(),
-        });
-      case DriverLicenseType.type1Special:
-        return LocaleKeys.title_4.tr(namedArgs: {
-          // 1종특수(40문항) 70↑)
-          'quiz_count': widget.licenseType.totalQuestions.toString(),
-          'passing_score': widget.licenseType.passingScore.toString(),
-        });
-      case DriverLicenseType.type2Small:
-        return LocaleKeys.title_5.tr(namedArgs: {
-          // 2종소형(40문항) 60↑)
-          'quiz_count': widget.licenseType.totalQuestions.toString(),
-          'passing_score': widget.licenseType.passingScore.toString(),
-        });
+
       case DriverLicenseType.typeBike:
         return LocaleKeys.title_6.tr(namedArgs: {
           // 오토바이(40문항) 60↑)
@@ -712,3 +684,27 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 }
+
+void test() {
+  ColorType colorType = ColorType.red;
+
+  if (colorType == ColorType.red) {
+    print('red');
+  } else {
+    print('blue');
+  }
+
+  switch (colorType) {
+    case ColorType.red:
+      print('red');
+      break;
+    case ColorType.blue:
+      print('blue');
+      break;
+    case ColorType.green:
+      print('green');
+      break;
+  }
+}
+
+enum ColorType { red, blue, green }

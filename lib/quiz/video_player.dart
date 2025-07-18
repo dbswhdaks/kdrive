@@ -23,7 +23,8 @@ class MP4PlayerState extends State<MP4Player> {
   bool _hasError = false;
   String _errorMessage = '';
   Timer? _timeoutTimer;
-  static const Duration _timeoutDuration = Duration(seconds: 8); // 타임아웃 단축
+  static const Duration _timeoutDuration =
+      Duration(seconds: 20); // 타임아웃 20초로 증가
   bool _isExternalController = false;
   // final VideoCacheManager _cacheManager = VideoCacheManager();
 

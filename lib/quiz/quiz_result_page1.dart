@@ -254,12 +254,6 @@ class QuizResultPage1 extends StatelessWidget {
         return LocaleKeys.class_1_driver_license.tr();
       case DriverLicenseType.type2Common:
         return LocaleKeys.class_2_driver_license.tr();
-      case DriverLicenseType.type1Large:
-        return LocaleKeys.class_1_large.tr();
-      case DriverLicenseType.type1Special:
-        return LocaleKeys.class_1_special.tr();
-      case DriverLicenseType.type2Small:
-        return LocaleKeys.class_2_small.tr();
       case DriverLicenseType.typeBike:
         return LocaleKeys.class_bike.tr();
     }
