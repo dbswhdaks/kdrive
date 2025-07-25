@@ -11,15 +11,14 @@ import 'package:kdrive/pages/2_wichigiban/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 
-class Drive_List3 extends StatefulWidget {
-  const Drive_List3({Key? key}) : super(key: key);
+class Eungsijeon extends StatefulWidget {
+  const Eungsijeon({Key? key}) : super(key: key);
 
   @override
-  State<Drive_List3> createState() => _DriveList3State();
+  State<Eungsijeon> createState() => _DriveList3State();
 }
 
-class _DriveList3State extends State<Drive_List3>
-    with TickerProviderStateMixin {
+class _DriveList3State extends State<Eungsijeon> with TickerProviderStateMixin {
   // 개선된 색상 팔레트
   static const _kPrimaryColor = Color(0xFF2563EB);
   static const _kPrimaryLightColor = Color(0xFF3B82F6);

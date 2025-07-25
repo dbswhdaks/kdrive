@@ -16,7 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 
-import 'package:kdrive/utils/drive_license_type.dart';
+import 'package:kdrive/pages/1_hagseub/quiz/quiz_score.dart';
 
 import '../3_step/quiz_result_page_bike.dart';
 

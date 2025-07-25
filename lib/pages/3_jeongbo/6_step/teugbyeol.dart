@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kdrive/component/web_view.dart';
 
-class Drive_List6 extends StatefulWidget {
-  const Drive_List6({Key? key}) : super(key: key);
+class Teugbyeol extends StatefulWidget {
+  const Teugbyeol({Key? key}) : super(key: key);
 
   @override
-  State<Drive_List6> createState() => _DriveList6State();
+  State<Teugbyeol> createState() => _DriveList6State();
 }
 
-class _DriveList6State extends State<Drive_List6>
-    with TickerProviderStateMixin {
+class _DriveList6State extends State<Teugbyeol> with TickerProviderStateMixin {
   // 개선된 색상 팔레트
   static const _kPrimaryColor = Color(0xFF2563EB);
   static const _kPrimaryLightColor = Color(0xFF3B82F6);

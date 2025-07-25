@@ -11,8 +11,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:async';
 
-class Drive_list1 extends StatelessWidget {
-  const Drive_list1({Key? key}) : super(key: key);
+class Chwideugjeolcha extends StatelessWidget {
+  const Chwideugjeolcha({Key? key}) : super(key: key);
 
   // 상수 정의로 메모리 최적화
   static const _kAppBarColor = Color(0xFF1976D2);

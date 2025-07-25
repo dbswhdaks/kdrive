@@ -10,7 +10,7 @@ import 'package:kdrive/pages/1_hagseub/main_quiz_nanum.dart';
 import 'package:kdrive/models/hospital_model.dart';
 import 'package:kdrive/pages/1_hagseub/quiz_nanum.dart';
 import 'package:kdrive/pages/2_wichigiban/test_center.dart';
-import 'package:kdrive/pages/3_jeongbo/6_step/drive_list6.dart';
+import 'package:kdrive/pages/3_jeongbo/6_step/teugbyeol.dart';
 import 'package:kdrive/pages/3_jeongbo/exam_information.dart';
 import 'package:kdrive/pages/2_wichigiban/location.dart';
 import 'package:latlong2/latlong.dart';
@@ -603,7 +603,7 @@ class _Drive_MainState extends State<Drive_Main> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Drive_List6()));
+                                  builder: (context) => Teugbyeol()));
                           print('3333');
                         },
                       ),

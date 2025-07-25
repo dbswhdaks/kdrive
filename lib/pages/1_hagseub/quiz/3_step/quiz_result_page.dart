@@ -11,7 +11,7 @@ import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
 import 'package:kdrive/models/quiz_model/quiz_model.dart';
 import 'package:kdrive/pages/1_hagseub/quiz/3_step/replay_screen.dart';
 import 'package:kdrive/pages/1_hagseub/quiz/3_step/replay_screen_bike.dart';
-import 'package:kdrive/utils/drive_license_type.dart';
+import 'package:kdrive/pages/1_hagseub/quiz/quiz_score.dart';
 
 class QuizResultPage extends StatelessWidget {
   const QuizResultPage({

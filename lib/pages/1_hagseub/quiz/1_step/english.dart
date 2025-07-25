@@ -6,7 +6,7 @@ import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
 import 'package:kdrive/models/quiz_model/car_quiz_model.dart';
 import 'package:kdrive/models/quiz_model/quiz_model.dart';
 import 'package:kdrive/pages/1_hagseub/quiz/2_step/quiz_page.dart';
-import 'package:kdrive/utils/drive_license_type.dart';
+import 'package:kdrive/pages/1_hagseub/quiz/quiz_score.dart';
 
 class English extends StatelessWidget {
   const English({Key? key, required this.language, required this.bikeLanguage})

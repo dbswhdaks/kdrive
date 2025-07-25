@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, sized_box_for_whitespace, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:kdrive/models/license_model.dart';
-import 'package:kdrive/utils/distance_service.dart';
+import 'package:kdrive/pages/2_wichigiban/distance_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';

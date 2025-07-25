@@ -8,7 +8,7 @@ import 'package:kdrive/drive_main.dart';
 import 'package:kdrive/generated/locale_keys.g.dart';
 import 'package:kdrive/models/quiz_model/bike_quiz_model.dart';
 import 'package:kdrive/pages/1_hagseub/quiz/3_step/replay_screen_bike.dart';
-import 'package:kdrive/utils/drive_license_type.dart';
+import 'package:kdrive/pages/1_hagseub/quiz/quiz_score.dart';
 
 class QuizResultPageBike extends StatelessWidget {
   const QuizResultPageBike({

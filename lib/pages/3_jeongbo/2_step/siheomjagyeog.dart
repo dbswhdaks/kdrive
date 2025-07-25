@@ -3,14 +3,14 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 
-class Drive_List2 extends StatefulWidget {
-  const Drive_List2({Key? key}) : super(key: key);
+class Siheomjagyeog extends StatefulWidget {
+  const Siheomjagyeog({Key? key}) : super(key: key);
 
   @override
-  State<Drive_List2> createState() => _DriveList2State();
+  State<Siheomjagyeog> createState() => _DriveList2State();
 }
 
-class _DriveList2State extends State<Drive_List2> {
+class _DriveList2State extends State<Siheomjagyeog> {
   // 상수 정의로 메모리 최적화
   static const _kAppBarColor = Color(0xFF1976D2);
   static const _kHeaderColor = Color(0xFFF5F5F5);

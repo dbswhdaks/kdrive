@@ -10,15 +10,14 @@ import 'package:kdrive/pages/3_jeongbo/4_step/assort_ment/leejongsohyeong.dart';
 import 'package:kdrive/pages/3_jeongbo/4_step/assort_ment/sohyeonggyenincha.dart';
 import 'package:kdrive/component/web_view.dart';
 
-class Drive_List4 extends StatefulWidget {
-  const Drive_List4({Key? key}) : super(key: key);
+class Haggwa extends StatefulWidget {
+  const Haggwa({Key? key}) : super(key: key);
 
   @override
-  State<Drive_List4> createState() => _DriveList4State();
+  State<Haggwa> createState() => _DriveList4State();
 }
 
-class _DriveList4State extends State<Drive_List4>
-    with TickerProviderStateMixin {
+class _DriveList4State extends State<Haggwa> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

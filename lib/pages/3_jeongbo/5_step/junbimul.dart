@@ -13,15 +13,14 @@ import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 
-class Drive_List5 extends StatefulWidget {
-  const Drive_List5({Key? key}) : super(key: key);
+class Junbimul extends StatefulWidget {
+  const Junbimul({Key? key}) : super(key: key);
 
   @override
-  State<Drive_List5> createState() => _DriveList5State();
+  State<Junbimul> createState() => _DriveList5State();
 }
 
-class _DriveList5State extends State<Drive_List5>
-    with TickerProviderStateMixin {
+class _DriveList5State extends State<Junbimul> with TickerProviderStateMixin {
   // 상수 정의로 메모리 최적화
   static const _kAppBarColor = Color(0xFF1976D2);
   static const _kHeaderColor = Color(0xFFF5F5F5);

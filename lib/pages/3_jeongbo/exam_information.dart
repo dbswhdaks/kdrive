@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, prefer_const_constructors_in_immutables
 import 'package:flutter/material.dart';
-import 'package:kdrive/pages/3_jeongbo/1_step/drive_list1.dart';
-import 'package:kdrive/pages/3_jeongbo/2_step/drive_list2.dart';
-import 'package:kdrive/pages/3_jeongbo/3_step/drive_list3.dart';
-import 'package:kdrive/pages/3_jeongbo/4_step/drive_list4.dart';
-import 'package:kdrive/pages/3_jeongbo/5_step/drive_list5.dart';
-import 'package:kdrive/pages/3_jeongbo/6_step/drive_list6.dart';
+import 'package:kdrive/pages/3_jeongbo/1_step/chwideugjeolcha.dart';
+import 'package:kdrive/pages/3_jeongbo/2_step/siheomjagyeog.dart';
+import 'package:kdrive/pages/3_jeongbo/3_step/eungsijeon.dart';
+import 'package:kdrive/pages/3_jeongbo/4_step/haggwa.dart';
+import 'package:kdrive/pages/3_jeongbo/5_step/junbimul.dart';
+import 'package:kdrive/pages/3_jeongbo/6_step/teugbyeol.dart';
 
 class ExamInformation extends StatelessWidget {
   const ExamInformation({super.key});
@@ -87,7 +87,7 @@ class ExamInformation extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Drive_list1()),
+                                            const Chwideugjeolcha()),
                                   ),
                                 ),
                               ),
@@ -102,7 +102,7 @@ class ExamInformation extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Drive_List2()),
+                                            const Siheomjagyeog()),
                                   ),
                                 ),
                               ),
@@ -117,7 +117,7 @@ class ExamInformation extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Drive_List3()),
+                                            const Eungsijeon()),
                                   ),
                                 ),
                               ),
@@ -131,8 +131,7 @@ class ExamInformation extends StatelessWidget {
                                   onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Drive_List4()),
+                                        builder: (context) => const Haggwa()),
                                   ),
                                 ),
                               ),
@@ -146,8 +145,7 @@ class ExamInformation extends StatelessWidget {
                                   onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Drive_List5()),
+                                        builder: (context) => const Junbimul()),
                                   ),
                                 ),
                               ),
@@ -162,7 +160,7 @@ class ExamInformation extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Drive_List6()),
+                                            const Teugbyeol()),
                                   ),
                                 ),
                               ),

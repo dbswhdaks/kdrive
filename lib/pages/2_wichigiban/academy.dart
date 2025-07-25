@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kdrive/models/academy_model.dart';
-import 'package:kdrive/utils/distance_service.dart';
+import 'package:kdrive/pages/2_wichigiban/distance_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
