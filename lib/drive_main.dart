@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:kdrive/academy.dart';
-import 'package:kdrive/main_quiz_nanum.dart';
+import 'package:kdrive/pages/2_wichigiban/academy.dart';
+import 'package:kdrive/pages/1_hagseub/main_quiz_nanum.dart';
 import 'package:kdrive/models/hospital_model.dart';
-import 'package:kdrive/quiz_nanum.dart';
-import 'package:kdrive/test_center.dart';
-import 'package:kdrive/test_center/drive_list6.dart';
-import 'package:kdrive/test_center/exam_information.dart';
-import 'package:kdrive/test_center/location.dart';
+import 'package:kdrive/pages/1_hagseub/quiz_nanum.dart';
+import 'package:kdrive/pages/2_wichigiban/test_center.dart';
+import 'package:kdrive/pages/3_jeongbo/6_step/drive_list6.dart';
+import 'package:kdrive/pages/3_jeongbo/exam_information.dart';
+import 'package:kdrive/pages/2_wichigiban/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'hospital.dart';
+import 'pages/2_wichigiban/hospital.dart';
 
 late Position position;
 
@@ -159,18 +159,33 @@ class _Drive_MainState extends State<Drive_Main> {
             children: [
               // 상단 앱명/로고
               Container(
-                color: Colors.green[50],
+                color: Colors.white,
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 70, bottom: 12),
-                alignment: Alignment.center,
-                child: Text(
-                  '전체보기',
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    letterSpacing: 2,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.navigate_before,
+                        size: 24,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Text(
+                      '전체 서비스',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: 2,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // Divider(height: 1, thickness: 1, color: kBgColor),
@@ -179,8 +194,7 @@ class _Drive_MainState extends State<Drive_Main> {
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    _buildSectionHeader('학습 및 문제풀이',
-                        icon: Icons.menu_book_outlined),
+                    _buildSectionHeader('학습 및 문제풀이'),
 
                     /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 섹션 헤더
                     _buildDrawerItem(
@@ -211,11 +225,11 @@ class _Drive_MainState extends State<Drive_Main> {
                       },
                     ),
                     SizedBox(height: 16),
-                    _buildSectionHeader('위치 기반 서비스', icon: Icons.map),
+                    _buildSectionHeader('위치 기반 서비스'),
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
-                      title: '운전전문학원 찾기',
-                      subtitle: 'academy',
+                      title: '운전(전문)학원',
+                      subtitle: 'Finding a private academy',
                       icon: Icons.location_on_outlined,
                       iconColor: Color(0xFFEA580C),
                       onTap: () async {
@@ -240,8 +254,8 @@ class _Drive_MainState extends State<Drive_Main> {
                     ),
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
-                      title: '운전면허 시험장 찾기',
-                      subtitle: 'test_center',
+                      title: '운전면허 시험장',
+                      subtitle: "Driver's License Examination Center",
                       icon: Icons.location_on_outlined,
                       iconColor: Color(0xFF7C3AED),
                       onTap: () async {
@@ -262,7 +276,7 @@ class _Drive_MainState extends State<Drive_Main> {
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
                       title: '신체검사 지정병원',
-                      subtitle: 'hospital',
+                      subtitle: 'Find a nearby hospital',
                       icon: Icons.local_hospital,
                       iconColor: Color(0xFFDC2626),
                       onTap: () async {
@@ -292,7 +306,7 @@ class _Drive_MainState extends State<Drive_Main> {
                       },
                     ),
                     SizedBox(height: 16),
-                    _buildSectionHeader('정보 및 안내', icon: Icons.info),
+                    _buildSectionHeader('정보 및 안내'),
                     _buildDrawerItem(
                       /// 드라이브 메인 화면 드로워 컨테이너 내부 컨테이너 내부 리스트뷰 드로워 버튼
                       title: '운전면허 시험안내',
@@ -766,16 +780,16 @@ class _Drive_MainState extends State<Drive_Main> {
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
         tileColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        leading: Icon(icon, size: 20, color: iconColor),
+        leading: Icon(icon, size: 30, color: iconColor),
 
         /// 드로워 버튼 아이콘
         title: Text(title,
             style: TextStyle(
-                color: kTextColor, fontWeight: FontWeight.w600, fontSize: 14)),
+                color: kTextColor, fontSize: 18, fontWeight: FontWeight.w500)),
         subtitle: Text(subtitle,
             style: TextStyle(
                 color: kSubTextColor,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w500)),
         onTap: onTap,
 

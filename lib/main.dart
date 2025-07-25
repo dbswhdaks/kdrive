@@ -11,15 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  await GetStorage.init();
-  await Supabase.initialize(
-    url: "https://bmynnrryybrzbipdprmh.supabase.co",
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJteW5ucnJ5eWJyemJpcGRwcm1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2NTIyNTksImV4cCI6MjA0OTIyODI1OX0.t3ci0hD07h0srEobU4NMqU-zXggY63JVJxza55S6leY',
-  );
-  // Get.put(LanguageController());
+  await init();
   runApp(
     EasyLocalization(
       supportedLocales: const [
@@ -30,28 +22,34 @@ void main() async {
       ],
       path: 'assets/translations',
       assetLoader: const CodegenLoader(),
-      // fallbackLocale: Locale('en'),
       child: MyApp(),
     ),
+  );
+}
+
+/// 초기화 함수
+Future<void> init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await GetStorage.init();
+  await Supabase.initialize(
+    url: "https://bmynnrryybrzbipdprmh.supabase.co",
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJteW5ucnJ5eWJyemJpcGRwcm1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2NTIyNTksImV4cCI6MjA0OTIyODI1OX0.t3ci0hD07h0srEobU4NMqU-zXggY63JVJxza55S6leY',
   );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      // locale: const Locale('ko'),
       debugShowCheckedModeBanner: false,
       theme: customTheme(),
-
-      // translations: AppTranslations(),
       home: SplashScreen(),
-      // home: SamplePage(),
     );
   }
 }
