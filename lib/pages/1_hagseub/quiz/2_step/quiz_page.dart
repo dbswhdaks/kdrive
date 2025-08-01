@@ -305,16 +305,16 @@ class _QuizPageState extends State<QuizPage> {
                     fontWeight: FontWeight.bold)),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _pageController.jumpToPage(40);
-            },
-            icon: const Icon(
-              Icons.settings,
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       _pageController.jumpToPage(40);
+        //     },
+        //     icon: const Icon(
+        //       Icons.settings,
+        //     ),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -330,8 +330,8 @@ class _QuizPageState extends State<QuizPage> {
                 children: [
                   SizedBox(height: 16),
                   timerText(),
-                  Text(
-                      '${item.problemtype} ${item.answer.toString()}'), // 문제 타입 및 답변 확인용
+                  // Text(
+                  //     '${item.problemtype} ${item.answer.toString()}'), // 문제 타입 및 답변 확인용
                   const SizedBox(height: 16),
                   questionText(index, item),
                   const SizedBox(height: 16),

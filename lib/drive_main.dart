@@ -163,19 +163,20 @@ class _Drive_MainState extends State<Drive_Main> {
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 70, bottom: 12),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: Icon(
                         Icons.navigate_before,
-                        size: 24,
+                        size: 30,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 60),
                     Text(
                       '전체 서비스',
                       style: TextStyle(
@@ -780,12 +781,12 @@ class _Drive_MainState extends State<Drive_Main> {
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
         tileColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        leading: Icon(icon, size: 30, color: iconColor),
+        leading: Icon(icon, size: 36, color: iconColor),
 
         /// 드로워 버튼 아이콘
         title: Text(title,
             style: TextStyle(
-                color: kTextColor, fontSize: 18, fontWeight: FontWeight.w500)),
+                color: kTextColor, fontSize: 16, fontWeight: FontWeight.w500)),
         subtitle: Text(subtitle,
             style: TextStyle(
                 color: kSubTextColor,
@@ -812,7 +813,7 @@ class _Drive_MainState extends State<Drive_Main> {
           ],
           Text(title,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: kTextColor)),
         ],
